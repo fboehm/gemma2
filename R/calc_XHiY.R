@@ -6,6 +6,10 @@
 #' @param UltVehiY a matrix
 #' @export
 calc_XHiY <- function(eval, D_l, X, UltVehiY){
+  # check inputs
+  stopifnot(length(eval) == ncol(X),
+            is.vector(eval),
+            is.vector(D_l))
   n_size <- length(eval)
   c_size <- nrow(X)
   d_size <- length(D_l)
@@ -18,7 +22,7 @@ calc_XHiY <- function(eval, D_l, X, UltVehiY){
         x <- X[j, k]
         y <- UltVehiY[i, k]
         delta <- eval[k]
-        d<- d + x * y / (delta * dl + 1)
+        d <- d + x * y / (delta * dl + 1)
       }
     }
     xHiy[(j-1) * d_size + i] <- d
@@ -28,33 +32,111 @@ calc_XHiY <- function(eval, D_l, X, UltVehiY){
 
 #' Eigendecomposition procedure for Vg and Ve
 #'
-#' @param Vg a d_size by d_size covariance matrix
-#' @param Ve a d_size by d_size covariance matrix
+#' @param V_g a d_size by d_size covariance matrix
+#' @param V_e a d_size by d_size covariance matrix
 #' @export
-eigen_proc <- function(Vg, Ve){
-  eigenVe <- eigen(Ve)
-  eigenVe$values -> Dl
-  eigenVe$vectors -> Ul
-  logDl <- log(Dl)
-  sum(logDl) -> logdet_Ve
-  V_e_h <- matrix(0, nrow = length(Dl), ncol = length(Dl))
-  V_e_hi <- V_e_h
-  for (i in 1:length(Dl)){
-    V_e_h <- V_e_h + sqrt(Dl)[i] * Ul[, i] %*% t(Ul[, i])
-    V_e_hi <- V_e_hi + Ul[, i] %*% t(Ul[, i]) /  sqrt(Dl)[i]
+#double EigenProc (const gsl_matrix *V_g, const gsl_matrix *V_e, gsl_vector *D_l, gsl_matrix *UltVeh, gsl_matrix *UltVehi)
+##{
+eigen_proc <- function(V_g, V_e){
+#  size_t d_size=V_g->size1;
+  d_size <- nrow(V_g)
+#  double d, logdet_Ve=0.0;
+  logdet_Ve <- 0
+#
+#  //eigen decomposition of V_e
+#  gsl_matrix *Lambda=gsl_matrix_alloc (d_size, d_size);
+  Lambda <- matrix(nrow = d_size, ncol = d_size)
+#  gsl_matrix *V_e_temp=gsl_matrix_alloc (d_size, d_size);
+  V_e_temp <- matrix(nrow = d_size, ncol = d_size)
+#  gsl_matrix *V_e_h=gsl_matrix_alloc (d_size, d_size);
+  V_e_h <- matrix(0, nrow = d_size, ncol = d_size)
+#  gsl_matrix *V_e_hi=gsl_matrix_alloc (d_size, d_size);
+  V_e_hi <- matrix(0, nrow = d_size, ncol = d_size)
+#  gsl_matrix *VgVehi=gsl_matrix_alloc (d_size, d_size);
+  VgVehi <- matrix(nrow = d_size, ncol = d_size)
+#  gsl_matrix *U_l=gsl_matrix_alloc (d_size, d_size);
+  U_l <- matrix(nrow = d_size, ncol = d_size)
+#
+#  gsl_matrix_memcpy(V_e_temp, V_e);
+  V_e -> V_e_temp
+#  EigenDecomp(V_e_temp, U_l, D_l, 0);
+  eigen(V_e_temp) -> eout
+  eout$values -> D_l
+  eout$vectors -> U_l
+#
+#  //calculate V_e_h and V_e_hi
+#  gsl_matrix_set_zero(V_e_h);
+#  gsl_matrix_set_zero(V_e_hi);
+#  for (size_t i=0; i<d_size; i++) {
+  for (i in 1:d_size){
+#    d=gsl_vector_get (D_l, i);
+    d <- D_l[i]
+#    if (d<=0) {continue;}
+    if (d > 0){
+#    logdet_Ve+=log(d);
+      logdet_Ve <- logdet_Ve + log(d)
+#
+#    gsl_vector_view U_col=gsl_matrix_column(U_l, i);
+      U_col <- U_l[, i]
+      d <- sqrt(d)
+#    d=sqrt(d);
+#    gsl_blas_dsyr (CblasUpper, d, &U_col.vector, V_e_h);
+      V_e_h <- V_e_h + d * U_col %*% t(U_col)
+#    d=1.0/d;
+#    gsl_blas_dsyr (CblasUpper, d, &U_col.vector, V_e_hi);
+      V_e_hi <- V_e_hi + U_col %*% t(U_col) / d
+    }
   }
-  VgVehi <- Vg %*% V_e_hi
+#  }
+#
+#  //copy the upper part to lower part
+#  for (size_t i=0; i<d_size; i++) {
+#    for (size_t j=0; j<i; j++) {
+#      gsl_matrix_set (V_e_h, i, j, gsl_matrix_get(V_e_h, j, i));
+#      gsl_matrix_set (V_e_hi, i, j, gsl_matrix_get(V_e_hi, j, i));
+#    }
+#  }
+#
+#  //calculate Lambda=V_ehi V_g V_ehi
+#  gsl_blas_dgemm(CblasNoTrans, CblasNoTrans, 1.0, V_g, V_e_hi, 0.0, VgVehi);
+  V_g %*% V_e_hi -> VgVehi
+
+#  gsl_blas_dgemm(CblasNoTrans, CblasNoTrans, 1.0, V_e_hi, VgVehi, 0.0, Lambda);
   Lambda <- V_e_hi %*% VgVehi
-  eigen(Lambda) -> eigenLambda
-  Ul <- eigenLambda$vectors
-  Dl <- eigenLambda$values
-  Dl[Dl < 0] <- 0
-  UltVeh <- t(Ul) %*% V_e_h
-  UltVehi <- t(Ul) %*% V_e_hi
-  return(list(logdet_Ve, UltVeh, UltVehi, Dl))
+
+    #
+#  //eigen decomposition of Lambda
+#  EigenDecomp(Lambda, U_l, D_l, 0);
+  eigen(Lambda) -> eout
+  eout$values -> D_l
+  eout$vectors -> U_l
+
+    #
+#  for (size_t i=0; i<d_size; i++) {
+#    d=gsl_vector_get (D_l, i);
+  D_l[D_l < 0] <- 0
+#    if (d<0) {gsl_vector_set (D_l, i, 0);}
+#  }
+#
+#  //calculate UltVeh and UltVehi
+#  gsl_blas_dgemm(CblasTrans, CblasNoTrans, 1.0, U_l, V_e_h, 0.0, UltVeh);
+  UltVeh <- t(U_l) %*% V_e_h
+#  gsl_blas_dgemm(CblasTrans, CblasNoTrans, 1.0, U_l, V_e_hi, 0.0, UltVehi);
+  UltVehi <- t(U_l) %*% V_e_hi
+
+#
+#    //free memory
+#  gsl_matrix_free (Lambda);
+#  gsl_matrix_free (V_e_temp);
+#  gsl_matrix_free (V_e_h);
+#  gsl_matrix_free (V_e_hi);
+#  gsl_matrix_free (VgVehi);
+#  gsl_matrix_free (U_l);
+#
+  return(list(logdet_Ve, UltVeh, UltVehi, D_l))
 }
-
-
+#  return logdet_Ve;
+#}
 #' Calculate Qi (inverse of Q) and log determinant of Q
 #'
 #' @param eval vector of eigenvalues from decomposition of relatedness matrix

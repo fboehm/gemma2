@@ -4,12 +4,12 @@
 \alias{eigen_proc}
 \title{Eigendecomposition procedure for Vg and Ve}
 \usage{
-eigen_proc(Vg, Ve)
+eigen_proc(V_g, V_e)
 }
 \arguments{
-\item{Vg}{a d_size by d_size covariance matrix}
+\item{V_g}{a d_size by d_size covariance matrix}
 
-\item{Ve}{a d_size by d_size covariance matrix}
+\item{V_e}{a d_size by d_size covariance matrix}
 }
 \description{
 Eigendecomposition procedure for Vg and Ve

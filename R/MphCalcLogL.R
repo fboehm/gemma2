@@ -58,7 +58,7 @@ MphEM <- function(func_name = "R", max_iter = 10000, max_prec = 1 / 1000, eval, 
   # start EM
   for (t in 1:max_iter){
     # eigen_proc
-    ep_out <- eigen_proc(Vg = V_g, Ve = V_e)
+    ep_out <- eigen_proc(V_g = V_g, V_e = V_e)
     ep_out[[1]] -> logdet_Ve
     ep_out[[2]] -> UltVeh
     ep_out[[3]] -> UltVehi
