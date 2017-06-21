@@ -9,6 +9,8 @@ test_that("outputted logdetVe value is length 1", {
 test_that("outputted logdetVe value is non-negative", {
   expect_gte(eigen_proc(matrix(c(1, 0, 0, 1), nrow = 2),
                                  matrix(c(1, 0, 0, 1), nrow = 2))[[1]], 0)
+  expect_gt(eigen_proc(matrix(c(5, 0, 0, 1), nrow = 2),
+                        matrix(c(5, 0, 0, 1), nrow = 2))[[1]], 0)
 })
 
 test_that("second and third outputs have same dimensions", {

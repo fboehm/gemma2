@@ -39,7 +39,8 @@ MphCalcLogL <- function(eval, D_l, Qi, UltVehiY, xHiy){
 #' @param V_g covariance matrix
 #' @param V_e covariance matrix
 #' @export
-MphEM <- function(func_name = "R", max_iter = 10000, max_prec = 1 / 1000, eval, X, Y, V_g, V_e){
+MphEM <- function(func_name = "R", max_iter = 10000, max_prec = 1 / 1000,
+                  eval, X, Y, V_g, V_e){
   n_size <- length(eval)
   c_size <- nrow(X)
   d_size <- nrow(Y)
