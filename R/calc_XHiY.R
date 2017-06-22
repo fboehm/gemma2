@@ -11,12 +11,12 @@ calc_XHiY <- function(eval, D_l, X, UltVehiY){
             is.vector(eval),
             is.vector(D_l))
   n_size <- length(eval)
-  c_size <- nrow(X)
+  c_size <- nrow(X) - 1
   d_size <- length(D_l)
   xHiy <- numeric()
   for (i in 1:d_size){
     dl <- D_l[i]
-    for (j in 1:c_size){
+    for (j in (1 + 1):(c_size + 1)){
       d <- 0
       for (k in 1:n_size){
         x <- X[j, k]
@@ -148,8 +148,7 @@ eigen_proc <- function(V_g, V_e){
 calc_qi <- function(eval, D_l, X){
   n_size <- length(eval)
   d_size <- length(D_l)
-  c_size <- nrow(X)# what is c_size? it's the number of rows in the transposed genotypes matrix
-  # transposed genotypes matrix is c by n
+  c_size <- nrow(X) - 1# what is c_size? c + 1 is the row number for the X design matrix
   dc_size <- d_size * c_size
   Q <- matrix(0, nrow = dc_size, ncol = dc_size)
 
