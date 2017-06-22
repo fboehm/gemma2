@@ -52,23 +52,24 @@ UpdateRL_B <- function(xHiy, Qi, d_size = 2){
 #' @param Sigma_ee matrix
 #' @export
 update_v <- function(eval, U, E, Sigma_uu, Sigma_ee){
+  stopifnot(isSymmetric(Sigma_uu), isSymmetric(Sigma_ee))
   n_size <- length(eval)
   d_size <- nrow(U)
   V_g <- matrix(0, nrow = d_size, ncol = d_size)
   V_e <- V_g
   for (k in 1:n_size){
     delta <- eval[k]
-    if (delta != 0){
+    #if (delta != 0){
       U_col <- U[, k]
       V_g <- V_g + U_col %*% t(U_col) / delta
-    }
+    #}
   }
   V_e <- E %*% t(E)
   V_g <- V_g + Sigma_uu
   V_e <- V_e + Sigma_ee
   V_g <- V_g / n_size
   V_e <- V_e / n_size
-  return(list(V_e, V_g))
+  return(list(V_g, V_e))
 }
 
 #' Calculate Sigma_ee and Sigma_uu matrices
