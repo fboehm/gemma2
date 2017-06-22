@@ -42,7 +42,10 @@ MphCalcLogL <- function(eval, D_l, Qi, UltVehiY, xHiy){
 MphEM <- function(func_name = "R", max_iter = 10000, max_prec = 1 / 1000,
                   eval, X, Y, V_g, V_e){
   n_size <- length(eval)
-  c_size <- nrow(X)
+  # be careful with defining c_size here
+  # for now, define as nrow(X) - 1 to see if we get GEMMA's results
+  
+  c_size <- nrow(X) # subtracting 1 from number of rows of X when defining c_size
   d_size <- nrow(Y)
   dc_size <- c_size * d_size
   # calculate XXt and XXti
