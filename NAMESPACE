@@ -2,6 +2,7 @@
 
 export(MphCalcLogL)
 export(MphEM)
+export(UpdateRL_B)
 export(calc_XHiY)
 export(calc_omega)
 export(calc_qi)

@@ -13,7 +13,7 @@ calc_XHiY <- function(eval, D_l, X, UltVehiY){
   n_size <- length(eval)
   c_size <- nrow(X)
   d_size <- length(D_l)
-  xHiy <- numeric(length = d_size * c_size)
+  xHiy <- numeric()
   for (i in 1:d_size){
     dl <- D_l[i]
     for (j in 1:c_size){
@@ -24,8 +24,8 @@ calc_XHiY <- function(eval, D_l, X, UltVehiY){
         delta <- eval[k]
         d <- d + x * y / (delta * dl + 1)
       }
+      xHiy[(j-1) * d_size + i] <- d
     }
-    xHiy[(j-1) * d_size + i] <- d
   }
   return(xHiy)
 }
@@ -38,6 +38,8 @@ calc_XHiY <- function(eval, D_l, X, UltVehiY){
 #double EigenProc (const gsl_matrix *V_g, const gsl_matrix *V_e, gsl_vector *D_l, gsl_matrix *UltVeh, gsl_matrix *UltVehi)
 ##{
 eigen_proc <- function(V_g, V_e){
+  # check inputs
+  stopifnot(isSymmetric(V_g), isSymmetric(V_e))
 #  size_t d_size=V_g->size1;
   d_size <- nrow(V_g)
 #  double d, logdet_Ve=0.0;

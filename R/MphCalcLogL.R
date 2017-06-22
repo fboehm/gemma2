@@ -46,20 +46,19 @@ MphEM <- function(func_name = "R", max_iter = 10000, max_prec = 1 / 1000,
   d_size <- nrow(Y)
   dc_size <- c_size * d_size
   # calculate XXt and XXti
-  XXt <- X %*% t(X)
-  XXti <- solve(XXt)
+  #XXt <- X %*% t(X)
+  #XXti <- solve(XXt)
+  ## XXti is only used for unrestricted likelihood!
   # calculate constant for logl
-  if (func_name == "R"){
+  #if (func_name == "R"){
     logl_const <- (n_size - c_size) * d_size * log(2 * pi) / 2 + d_size * log(det(XXt)) / 2
-  } else {
-    logl_const <- n_size * d_size * log(2 * pi) / 2
-  }
+  #} 
   out <- list()
-  logl_old <- 1 # we need to define logl_old before using it within the EM iterations
+  #logl_old <- 1 # we need to define logl_old before using it within the EM iterations
   # start EM
   for (t in 1:max_iter){
     # eigen_proc
-    ep_out <- eigen_proc(V_g = V_g, V_e = V_e)
+    ep_out <- eigen_proc(V_g, V_e)
     ep_out[[1]] -> logdet_Ve
     ep_out[[2]] -> UltVeh
     ep_out[[3]] -> UltVehi
@@ -72,11 +71,13 @@ MphEM <- function(func_name = "R", max_iter = 10000, max_prec = 1 / 1000,
     UltVehiY <- UltVehi %*% Y
     #
     xHiy <- calc_XHiY(eval, D_l, X, UltVehiY)
-    logl_new <- logl_const + MphCalcLogL(eval = eval, xHiy = xHiy, D_l = D_l, UltVehiY = UltVehiY, Qi = Qi) - 0.5 * n_size * logdet_Ve
-    if (func_name=='R') {
-      logl_new<- logl_new - 0.5 * (lndetQ - c_size * logdet_Ve)
-    }
-    if (t > 1 & abs(logl_new - logl_old) < max_prec) {break}
+    logl_new <- logl_const + MphCalcLogL(eval = eval, xHiy = xHiy, 
+                                         D_l = D_l, UltVehiY = UltVehiY, 
+                                         Qi = Qi) - 0.5 * n_size * logdet_Ve
+    #if (func_name=='R') {
+      logl_new <- logl_new - 0.5 * (lndetQ - c_size * logdet_Ve)
+    #}
+    #if (t > 1 & abs(logl_new - logl_old) < max_prec) {break}
     logl_old <- logl_new
     co_out <- calc_omega(eval, D_l)
     co_out[[1]] -> OmegaU
@@ -90,13 +91,18 @@ MphEM <- function(func_name = "R", max_iter = 10000, max_prec = 1 / 1000,
     U_hat <- t(UltVeh) %*% UltVehiU
     E_hat <- t(UltVeh) %*% UltVehiE
     B <- t(UltVeh) %*% UltVehiB
-    cs_out <- calc_sigma(func_name = func_name, eval = eval, D_l = D_l, X = X, OmegaU = OmegaU, OmegaE = OmegaE, UltVeh = UltVeh, Qi = Qi)
+    cs_out <- calc_sigma(func_name = func_name, eval = eval, D_l = D_l, 
+                         X = X, OmegaU = OmegaU, OmegaE = OmegaE, 
+                         UltVeh = UltVeh, Qi = Qi)
     cs_out[[1]] -> Sigma_uu
     cs_out[[2]] -> Sigma_ee
     uv_out <- update_v(eval, U_hat, E_hat, Sigma_uu, Sigma_ee)
+    # update V_g and V_e
     uv_out[[1]] -> V_g
     uv_out[[2]] -> V_e
-    out[[t]] <- list(logl_new, V_g, V_e)
+    out[[t]] <- list(logl_new, V_g, V_e, Sigma_uu, Sigma_ee, B, 
+                     U_hat, E_hat, OmegaU, OmegaE, logdet_Ve, UltVeh, UltVehi, 
+                     D_l, xHiy)
   }
   return(out)
 }

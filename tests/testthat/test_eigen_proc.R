@@ -35,3 +35,11 @@ test_that("entries of fourth output are all non-negative", {
   expect_gte(eigen_proc(matrix(c(1, 0, 0, 1), nrow = 2),
                         matrix(c(1, 0, 0, 1), nrow = 2))[[4]][2], 0)
 })
+foo <- abs(rnorm(4))
+test_that("first entry of output is correctly calculated", {
+  expect_equal(eigen_proc(matrix(c(1, 0, 0, 1), nrow = 2),
+                          matrix(c(1, 0, 0, 1), nrow = 2))[[1]], 0)
+  expect_equal(eigen_proc( matrix(c(foo[1], 0, 0, foo[2]), nrow = 2),
+                          matrix(c(foo[3],0, 0, foo[4]), nrow = 2))[[1]],
+               log(det(matrix(c(foo[3],0, 0, foo[4]), nrow = 2))))
+})

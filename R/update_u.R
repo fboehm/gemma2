@@ -29,6 +29,7 @@ update_e <- function(UltVehiY, UltVehiBX, UltVehiU){
 #' @param xHiy vector
 #' @param Qi Q inverse matrix
 #' @param d_size number of traits
+#' @export
 UpdateRL_B <- function(xHiy, Qi, d_size = 2){
   nrow(Qi) -> dc_size
   c_size <- dc_size / d_size
