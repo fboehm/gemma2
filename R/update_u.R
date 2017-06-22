@@ -34,13 +34,11 @@ UpdateRL_B <- function(xHiy, Qi, d_size = 2){
   nrow(Qi) -> dc_size
   c_size <- dc_size / d_size
   b <- vector(length = dc_size) # dc_size = 2 by default
-  print(Qi)
-  print(xHiy)
   b <- Qi %*% xHiy
-  UltVehiB <- matrix(nrow = d_size - 1, ncol = c_size + 1)
-  for (i in 1:(c_size + 1)){
-    b_subcol <- b[(1 + (i - 1) * (d_size - 1)):((i - 1) * (d_size - 1) + 1)]
-    b_subcol -> UltVehiB[, i] # could use as.matrix here
+  UltVehiB <- matrix(nrow = d_size, ncol = c_size)
+  for (i in (1 + 1):(c_size + 1)){
+    b_subcol <- b[(1 + (i - 1 - 1) * d_size):((i - 1) * d_size)]
+    b_subcol -> UltVehiB[, i - 1] # could use as.matrix here
   }
   return(UltVehiB)
 }
