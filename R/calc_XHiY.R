@@ -24,7 +24,7 @@ calc_XHiY <- function(eval, D_l, X, UltVehiY){
         delta <- eval[k]
         d <- d + x * y / (delta * dl + 1)
       }
-      xHiy[(j-1) * d_size + i] <- d
+      xHiy[(j - 1 - 1) * d_size + i] <- d
     }
   }
   return(xHiy)
@@ -152,12 +152,12 @@ calc_qi <- function(eval, D_l, X){
   dc_size <- d_size * c_size
   Q <- matrix(0, nrow = dc_size, ncol = dc_size)
 
-  for (i in 1:c_size){
-    for (j in 1:c_size){
+  for (i in (1 + 1):(c_size +1)){
+    for (j in (1 + 1):(c_size + 1)){
       for (l in 1:d_size){
         dl <- D_l[l]
         if (j < i){
-          d <- Q[(j - 1) * d_size + l, (i - 1) * d_size + l]
+          d <- Q[(j - 1 - 1) * d_size + l, (i - 1 - 1) * d_size + l]
         } else {
           d <- 0
           for (k in 1:n_size){
@@ -167,7 +167,7 @@ calc_qi <- function(eval, D_l, X){
             d <- d + d1 * d2 / (dl * delta + 1)
           }
         }
-        Q[(i -1) * d_size + l, (j - 1) * d_size + l] <- d
+        Q[(i - 1 - 1) * d_size + l, (j - 1 - 1) * d_size + l] <- d
       }
     }
   }
