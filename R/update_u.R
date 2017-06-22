@@ -33,12 +33,12 @@ update_e <- function(UltVehiY, UltVehiBX, UltVehiU){
 UpdateRL_B <- function(xHiy, Qi, d_size = 2){
   nrow(Qi) -> dc_size
   c_size <- dc_size / d_size
-  b <- vector(length = dc_size) # dc_size = 2 by default
+  b <- vector(length = dc_size)
   b <- Qi %*% xHiy
   UltVehiB <- matrix(nrow = d_size, ncol = c_size)
-  for (i in (1 + 1):(c_size + 1)){
-    b_subcol <- b[(1 + (i - 1 - 1) * d_size):((i - 1) * d_size)]
-    b_subcol -> UltVehiB[, i - 1] # could use as.matrix here
+  for (i in 1:c_size){
+    b_subcol <- b[(1 + (i - 1) * d_size):(i * d_size)]
+    b_subcol -> UltVehiB[, i] # could use as.matrix here
   }
   return(UltVehiB)
 }
@@ -85,7 +85,7 @@ update_v <- function(eval, U, E, Sigma_uu, Sigma_ee){
 #' @export
 calc_sigma <- function(eval, D_l, X, OmegaU, OmegaE, UltVeh, Qi, func_name = "R"){
   n_size <- length(eval)
-  c_size <- nrow(X) - 1
+  c_size <- nrow(X)
   d_size <- length(D_l)
   dc_size <- nrow(Qi)
   Sigma_ee <- matrix(0, nrow = d_size, ncol = d_size)
@@ -104,7 +104,7 @@ calc_sigma <- function(eval, D_l, X, OmegaU, OmegaE, UltVeh, Qi, func_name = "R"
       delta <- eval[k]
       for (i in 1:d_size){
         dl <- D_l[i]
-        for (j in (1 + 1):(c_size + 1)){
+        for (j in 1:c_size){
           x <- X[j, k]
           d <- x / (delta * dl + 1)
           M_e[(j - 1) * d_size + i, i] <- d

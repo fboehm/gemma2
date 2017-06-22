@@ -45,7 +45,7 @@ MphEM <- function(func_name = "R", max_iter = 10000, max_prec = 1 / 1000,
   # be careful with defining c_size here
   # for now, define as nrow(X) - 1 to see if we get GEMMA's results
   
-  c_size <- nrow(X) - 1 # subtracting 1 from number of rows of X when defining c_size
+  c_size <- nrow(X) # subtracting 1 from number of rows of X when defining c_size
   d_size <- nrow(Y)
   dc_size <- c_size * d_size
   # calculate XXt and XXti
