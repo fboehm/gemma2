@@ -15,7 +15,6 @@ MphCalcLogL <- function(eval, D_l, Qi, UltVehiY, xHiy){
     delta <- eval[k]
     for (i in 1:d_size){
       y <- UltVehiY[i, k]
-      is.na(y)
       dl <- D_l[i]
       d <- delta * dl + 1
       logl <- logl + y^2 / d + log(d)
@@ -23,6 +22,7 @@ MphCalcLogL <- function(eval, D_l, Qi, UltVehiY, xHiy){
   }
   Qiv <- Qi %*% xHiy
   d <- t(xHiy) %*% Qiv
+  stopifnot(length(d) == 1)
   logl <- logl - d
   return(- 0.5 * logl)
 }
@@ -46,12 +46,13 @@ MphEM <- function(func_name = "R", max_iter = 10000, max_prec = 1 / 1000,
   d_size <- nrow(Y)
   dc_size <- c_size * d_size
   # calculate XXt and XXti
-  #XXt <- X %*% t(X)
+  XXt <- X %*% t(X)
   #XXti <- solve(XXt)
   ## XXti is only used for unrestricted likelihood!
   # calculate constant for logl
   #if (func_name == "R"){
-    logl_const <- (n_size - c_size) * d_size * log(2 * pi) / 2 + d_size * log(det(XXt)) / 2
+  logl_const <- (n_size - c_size) * d_size * log(2 * pi) / 2 + d_size * log(det(XXt)) / 2
+  print(logl_const)
   #} 
   out <- list()
   #logl_old <- 1 # we need to define logl_old before using it within the EM iterations
@@ -75,7 +76,7 @@ MphEM <- function(func_name = "R", max_iter = 10000, max_prec = 1 / 1000,
                                          D_l = D_l, UltVehiY = UltVehiY, 
                                          Qi = Qi) - 0.5 * n_size * logdet_Ve
     #if (func_name=='R') {
-      logl_new <- logl_new - 0.5 * (lndetQ - c_size * logdet_Ve)
+    logl_new <- logl_new - 0.5 * (lndetQ - c_size * logdet_Ve)
     #}
     #if (t > 1 & abs(logl_new - logl_old) < max_prec) {break}
     logl_old <- logl_new
