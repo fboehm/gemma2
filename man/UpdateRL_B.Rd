@@ -2,7 +2,7 @@
 % Please edit documentation in R/update_u.R
 \name{UpdateRL_B}
 \alias{UpdateRL_B}
-\title{Update restricted log likelihood}
+\title{Update B for restricted log likelihood}
 \usage{
 UpdateRL_B(xHiy, Qi, d_size = 2)
 }
@@ -14,5 +14,5 @@ UpdateRL_B(xHiy, Qi, d_size = 2)
 \item{d_size}{number of traits}
 }
 \description{
-Update restricted log likelihood
+Update B for restricted log likelihood
 }
