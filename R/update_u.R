@@ -5,9 +5,17 @@
 #' @param UltVehiBX matrix
 #' @export
 update_u <- function(OmegaE, UltVehiY, UltVehiBX){
+  #void UpdateU (const gsl_matrix *OmegaE, const gsl_matrix *UltVehiY, const gsl_matrix *UltVehiBX, gsl_matrix *UltVehiU)
+  #{
+  #  gsl_matrix_memcpy (UltVehiU, UltVehiY);
   UltVehiU <- UltVehiY
+  #  gsl_matrix_sub (UltVehiU, UltVehiBX);
   UltVehiU <- UltVehiU - UltVehiBX
+  #
+  #  gsl_matrix_mul_elements (UltVehiU, OmegaE);
   UltVehiU <- UltVehiU * OmegaE
+  #  return;
+  #}
   return(UltVehiU)
 }
 
@@ -18,28 +26,54 @@ update_u <- function(OmegaE, UltVehiY, UltVehiBX){
 #' @param UltVehiU matrix of transformed U values
 #' @export
 update_e <- function(UltVehiY, UltVehiBX, UltVehiU){
+  #void UpdateE (const gsl_matrix *UltVehiY, const gsl_matrix *UltVehiBX, const gsl_matrix *UltVehiU, gsl_matrix *UltVehiE)
+  #{
+   # gsl_matrix_memcpy (UltVehiE, UltVehiY);
   UltVehiY -> UltVehiE
+  #  gsl_matrix_sub (UltVehiE, UltVehiBX);
   UltVehiE <- UltVehiE - UltVehiBX
+  #  gsl_matrix_sub (UltVehiE, UltVehiU);
   UltVehiE <- UltVehiE - UltVehiU
+  #
+  #  return;
+  #}
   return(UltVehiE)
 }
 
-#' Update restricted log likelihood
+#' Update B for restricted log likelihood
 #'
 #' @param xHiy vector
 #' @param Qi Q inverse matrix
 #' @param d_size number of traits
 #' @export
 UpdateRL_B <- function(xHiy, Qi, d_size = 2){
+  #void UpdateRL_B (const gsl_vector *xHiy, const gsl_matrix *Qi, gsl_matrix *UltVehiB)
+  #{
+  #  size_t d_size=UltVehiB->size1, c_size=UltVehiB->size2, dc_size=Qi->size1;
   nrow(Qi) -> dc_size
   c_size <- dc_size / d_size
-  b <- vector(length = dc_size)
+  #
+  #  gsl_vector *b=gsl_vector_alloc (dc_size);
+  #
+  #  //calculate b=Qiv
+  #  gsl_blas_dgemv(CblasNoTrans, 1.0, Qi, xHiy, 0.0, b);
   b <- Qi %*% xHiy
   UltVehiB <- matrix(nrow = d_size, ncol = c_size)
+  #
+  #  //copy b to UltVehiB
+  #  for (size_t i=0; i<c_size; i++) {
   for (i in 1:c_size){
+    #    gsl_vector_view UltVehiB_col=gsl_matrix_column (UltVehiB, i);
     b_subcol <- b[(1 + (i - 1) * d_size):(i * d_size)]
+  #    gsl_vector_const_view b_subcol=gsl_vector_const_subvector (b, i*d_size, d_size);
+  #    gsl_vector_memcpy (&UltVehiB_col.vector, &b_subcol.vector);
+  #  }
     b_subcol -> UltVehiB[, i] # could use as.matrix here
-  }
+  }#
+  #  gsl_vector_free(b);
+  #
+  #  return;
+  #}
   return(UltVehiB)
 }
 
