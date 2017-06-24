@@ -118,13 +118,82 @@ update_v <- function(eval, U, E, Sigma_uu, Sigma_ee){
 #' @param func_name indicator for restricted or unrestricted likelihood
 #' @export
 calc_sigma <- function(eval, D_l, X, OmegaU, OmegaE, UltVeh, Qi, func_name = "R"){
+  #void CalcSigma (const char func_name, const gsl_vector *eval, const gsl_vector *D_l, const gsl_matrix *X, const gsl_matrix *OmegaU, const gsl_matrix *OmegaE, const gsl_matrix *UltVeh, const gsl_matrix *Qi, gsl_matrix *Sigma_uu, gsl_matrix *Sigma_ee)
+  #{
+  #  if (func_name!='R' && func_name!='L' && func_name!='r' && func_name!='l') {cout<<"func_name only takes 'R' or 'L': 'R' for log-restricted likelihood, 'L' for log-likelihood."<<endl; return;}
+  #
+  #  size_t n_size=eval->size, c_size=X->size1, d_size=D_l->size, dc_size=Qi->size1;
   n_size <- length(eval)
   c_size <- nrow(X)
   d_size <- length(D_l)
   dc_size <- nrow(Qi)
+  #  gsl_matrix_set_zero(Sigma_uu);
+  #  gsl_matrix_set_zero(Sigma_ee);
   Sigma_ee <- matrix(0, nrow = d_size, ncol = d_size)
   Sigma_uu <- Sigma_ee
+  #
+  #  double delta, dl, x, d;
+  #
+   # //calculate the first diagonal term
+  #  gsl_vector_view Suu_diag=gsl_matrix_diagonal (Sigma_uu);
+  #  gsl_vector_view See_diag=gsl_matrix_diagonal (Sigma_ee);
+  #
+  #  for (size_t k=0; k<n_size; k++) {
   for (k in 1:n_size){
+    #    gsl_vector_const_view OmegaU_col=gsl_matrix_const_column (OmegaU, k);
+  #    gsl_vector_const_view OmegaE_col=gsl_matrix_const_column (OmegaE, k);
+  #
+  #    gsl_vector_add (&Suu_diag.vector, &OmegaU_col.vector);
+  #    gsl_vector_add (&See_diag.vector, &OmegaE_col.vector);
+  #  }
+  #
+  #  //calculate the second term for reml
+  #  if (func_name=='R' || func_name=='r') {
+  #    gsl_matrix *M_u=gsl_matrix_alloc(dc_size, d_size);
+  #    gsl_matrix *M_e=gsl_matrix_alloc(dc_size, d_size);
+  #    gsl_matrix *QiM=gsl_matrix_alloc(dc_size, d_size);
+  #
+  #    gsl_matrix_set_zero(M_u);
+  #    gsl_matrix_set_zero(M_e);
+  #
+  #    for (size_t k=0; k<n_size; k++) {
+  #      delta=gsl_vector_get(eval, k);
+  #      //if (delta==0) {continue;}
+  #
+  #      for (size_t i=0; i<d_size; i++) {
+  #        dl=gsl_vector_get(D_l, i);
+  #        for (size_t j=0; j<c_size; j++) {
+  #          x=gsl_matrix_get(X, j, k);
+  #          d=x/(delta*dl+1.0);
+  #          gsl_matrix_set(M_e, j*d_size+i, i, d);
+  #          gsl_matrix_set(M_u, j*d_size+i, i, d*dl);
+  #        }
+  #      }
+  #      gsl_blas_dgemm(CblasNoTrans, CblasNoTrans, 1.0, Qi, M_u, 0.0, QiM);
+  #      gsl_blas_dgemm(CblasTrans, CblasNoTrans, delta, M_u, QiM, 1.0, Sigma_uu);
+  #
+  #      gsl_blas_dgemm(CblasNoTrans, CblasNoTrans, 1.0, Qi, M_e, 0.0, QiM);
+  #      gsl_blas_dgemm(CblasTrans, CblasNoTrans, 1.0, M_e, QiM, 1.0, Sigma_ee);
+  #    }
+  #
+  #    gsl_matrix_free(M_u);
+  #    gsl_matrix_free(M_e);
+  #    gsl_matrix_free(QiM);
+  # }
+  #
+  #  //multiply both sides by VehUl
+  #  gsl_matrix *M=gsl_matrix_alloc (d_size, d_size);
+  #
+  #  gsl_blas_dgemm(CblasNoTrans, CblasNoTrans, 1.0, Sigma_uu, UltVeh, 0.0, M);
+  #  gsl_blas_dgemm(CblasTrans, CblasNoTrans, 1.0, UltVeh, M, 0.0, Sigma_uu);
+  #  gsl_blas_dgemm(CblasNoTrans, CblasNoTrans, 1.0, Sigma_ee, UltVeh, 0.0, M);
+  #  gsl_blas_dgemm(CblasTrans, CblasNoTrans, 1.0, UltVeh, M, 0.0, Sigma_ee);
+  #
+  #  gsl_matrix_free(M);
+  #  return;
+  #}
+
+
     OmegaU_col <- OmegaU[, k]
     OmegaE_col <- OmegaE[, k]
     diag(Sigma_ee) <- diag(Sigma_ee) + OmegaE_col
