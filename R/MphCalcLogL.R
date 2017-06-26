@@ -93,7 +93,7 @@ MphEM <- function(max_iter = 10000, max_prec = 1 / 1000,
     U_hat <- t(UltVeh) %*% UltVehiU
     E_hat <- t(UltVeh) %*% UltVehiE
     B <- t(UltVeh) %*% UltVehiB
-    cs_out <- calc_sigma(func_name = func_name, eval = eval, D_l = D_l,
+    cs_out <- calc_sigma(eval = eval, D_l = D_l,
                          X = X, OmegaU = OmegaU, OmegaE = OmegaE,
                          UltVeh = UltVeh, Qi = Qi)
     cs_out[[1]] -> Sigma_uu
