@@ -5,6 +5,9 @@
 #' @param X design matrix
 #' @param UltVehiY a matrix
 #' @export
+
+#void CalcXHiY(const gsl_vector *eval, const gsl_vector *D_l, const gsl_matrix *X, const gsl_matrix *UltVehiY, gsl_vector *xHiy)
+#{
 calc_XHiY <- function(eval, D_l, X, UltVehiY){
   # check inputs
   stopifnot(length(eval) == ncol(X),
@@ -13,7 +16,24 @@ calc_XHiY <- function(eval, D_l, X, UltVehiY){
   n_size <- length(eval)
   c_size <- nrow(X)
   d_size <- length(D_l)
-  xHiy <- numeric()
+  #  size_t n_size=eval->size, c_size=X->size1, d_size=D_l->size;
+ #
+#  gsl_vector_set_zero (xHiy);
+  xHiy <- rep(0, d_size * c_size)
+  #
+#  double x, delta, dl, y, d;
+#  for (size_t i=0; i<d_size; i++) {
+#    dl=gsl_vector_get(D_l, i);
+#    for (size_t j=0; j<c_size; j++) {
+#      d=0.0;
+#      for (size_t k=0; k<n_size; k++) {
+#        x=gsl_matrix_get(X, j, k);
+#        y=gsl_matrix_get(UltVehiY, i, k);
+#        delta=gsl_vector_get(eval, k);
+#        d+=x*y/(delta*dl+1.0);
+#      }
+#      gsl_vector_set(xHiy, j*d_size+i, d);
+#    }
   for (i in 1:d_size){
     dl <- D_l[i]
     for (j in 1:c_size){
@@ -29,6 +49,16 @@ calc_XHiY <- function(eval, D_l, X, UltVehiY){
   }
   return(xHiy)
 }
+#  }
+#  cout<<"xHiy: "<<endl;
+#  for (size_t i=0; i<(d_size*c_size); i++) {
+#    cout<<gsl_vector_get(xHiy, i)<<endl;
+#  }
+#  cout<<"c_size: "<<endl;
+#  cout<<c_size<<endl;
+#  return;
+#}
+
 
 #' Eigendecomposition procedure for Vg and Ve
 #'

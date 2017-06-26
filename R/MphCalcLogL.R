@@ -44,8 +44,8 @@ MphEM <- function(func_name = "R", max_iter = 10000, max_prec = 1 / 1000,
   n_size <- length(eval)
   # be careful with defining c_size here
   # for now, define as nrow(X) - 1 to see if we get GEMMA's results
-  
-  c_size <- nrow(X) 
+
+  c_size <- nrow(X)
   d_size <- nrow(Y)
   dc_size <- c_size * d_size
   # calculate XXt and XXti
@@ -55,7 +55,7 @@ MphEM <- function(func_name = "R", max_iter = 10000, max_prec = 1 / 1000,
   # calculate constant for logl
   #if (func_name == "R"){
   logl_const <- - (n_size - c_size) * d_size * log(2 * pi) / 2 + d_size * log(det(XXt)) / 2
-  #} 
+  #}
   out <- list()
   #logl_old <- 1 # we need to define logl_old before using it within the EM iterations
   # start EM
@@ -74,8 +74,8 @@ MphEM <- function(func_name = "R", max_iter = 10000, max_prec = 1 / 1000,
     UltVehiY <- UltVehi %*% Y
     #
     xHiy <- calc_XHiY(eval, D_l, X, UltVehiY)
-    logl_new <- logl_const + MphCalcLogL(eval = eval, xHiy = xHiy, 
-                                         D_l = D_l, UltVehiY = UltVehiY, 
+    logl_new <- logl_const + MphCalcLogL(eval = eval, xHiy = xHiy,
+                                         D_l = D_l, UltVehiY = UltVehiY,
                                          Qi = Qi) - 0.5 * n_size * logdet_Ve
     #if (func_name=='R') {
     logl_new <- logl_new - 0.5 * (lndetQ - c_size * logdet_Ve)
@@ -85,17 +85,16 @@ MphEM <- function(func_name = "R", max_iter = 10000, max_prec = 1 / 1000,
     co_out <- calc_omega(eval, D_l)
     co_out[[1]] -> OmegaU
     co_out[[2]] -> OmegaE
-    if (func_name == 'R') {
-      UltVehiB <- UpdateRL_B(xHiy, Qi)
-      UltVehiBX <- UltVehiB %*% X
-    }
+    UltVehiB <- UpdateRL_B(xHiy, Qi)
+    UltVehiBX <- UltVehiB %*% X
+
     UltVehiU <- update_u(OmegaE, UltVehiY, UltVehiBX)
     UltVehiE <- update_e(UltVehiY, UltVehiBX, UltVehiU)
     U_hat <- t(UltVeh) %*% UltVehiU
     E_hat <- t(UltVeh) %*% UltVehiE
     B <- t(UltVeh) %*% UltVehiB
-    cs_out <- calc_sigma(func_name = func_name, eval = eval, D_l = D_l, 
-                         X = X, OmegaU = OmegaU, OmegaE = OmegaE, 
+    cs_out <- calc_sigma(func_name = func_name, eval = eval, D_l = D_l,
+                         X = X, OmegaU = OmegaU, OmegaE = OmegaE,
                          UltVeh = UltVeh, Qi = Qi)
     cs_out[[1]] -> Sigma_uu
     cs_out[[2]] -> Sigma_ee
@@ -103,8 +102,8 @@ MphEM <- function(func_name = "R", max_iter = 10000, max_prec = 1 / 1000,
     # update V_g and V_e
     uv_out[[1]] -> V_g
     uv_out[[2]] -> V_e
-    out[[t]] <- list(logl_new, V_g, V_e, Sigma_uu, Sigma_ee, B, 
-                     U_hat, E_hat, OmegaU, OmegaE, logdet_Ve, UltVeh, UltVehi, 
+    out[[t]] <- list(logl_new, V_g, V_e, Sigma_uu, Sigma_ee, B,
+                     U_hat, E_hat, OmegaU, OmegaE, logdet_Ve, UltVeh, UltVehi,
                      D_l, xHiy, logl_const)
   }
   return(out)

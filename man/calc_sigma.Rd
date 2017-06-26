@@ -4,7 +4,7 @@
 \alias{calc_sigma}
 \title{Calculate Sigma_ee and Sigma_uu matrices}
 \usage{
-calc_sigma(eval, D_l, X, OmegaU, OmegaE, UltVeh, Qi, func_name = "R")
+calc_sigma(eval, D_l, X, OmegaU, OmegaE, UltVeh, Qi)
 }
 \arguments{
 \item{eval}{eigenvalues vector from decomposition of relatedness matrix}
@@ -20,8 +20,6 @@ calc_sigma(eval, D_l, X, OmegaU, OmegaE, UltVeh, Qi, func_name = "R")
 \item{UltVeh}{matrix}
 
 \item{Qi}{inverse of Q matrix}
-
-\item{func_name}{indicator for restricted or unrestricted likelihood}
 }
 \description{
 Calculate Sigma_ee and Sigma_uu matrices
