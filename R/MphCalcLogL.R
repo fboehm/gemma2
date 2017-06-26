@@ -30,7 +30,6 @@ MphCalcLogL <- function(eval, D_l, Qi, UltVehiY, xHiy){
 
 #' Perform EM algorithm
 #'
-#' @param func_name indicator for calculating restricted or unrestricted likelihood
 #' @param max_iter maximum number of iterations for EM algorithm
 #' @param max_prec maximum precision for EM algorithm
 #' @param eval vector of eigenvalues from relatedness matrix decomposition

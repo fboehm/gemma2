@@ -20,8 +20,6 @@ MphEM(max_iter = 10000, max_prec = 1/1000, eval, X, Y, V_g, V_e)
 \item{V_g}{covariance matrix}
 
 \item{V_e}{covariance matrix}
-
-\item{func_name}{indicator for calculating restricted or unrestricted likelihood}
 }
 \description{
 Perform EM algorithm
