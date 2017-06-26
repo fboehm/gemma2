@@ -92,7 +92,7 @@ eigen_proc <- function(V_g, V_e){
 #  gsl_matrix_memcpy(V_e_temp, V_e);
   V_e -> V_e_temp
 #  EigenDecomp(V_e_temp, U_l, D_l, 0);
-  eigen(V_e_temp) -> eout
+  eigen2(V_e_temp) -> eout
   eout$values -> D_l
   eout$vectors -> U_l
 #
@@ -139,7 +139,7 @@ eigen_proc <- function(V_g, V_e){
     #
 #  //eigen decomposition of Lambda
 #  EigenDecomp(Lambda, U_l, D_l, 0);
-  eigen(Lambda) -> eout
+  eigen2(Lambda) -> eout
   eout$values -> D_l
   eout$vectors -> U_l
 
