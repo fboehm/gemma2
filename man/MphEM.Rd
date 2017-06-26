@@ -4,12 +4,9 @@
 \alias{MphEM}
 \title{Perform EM algorithm}
 \usage{
-MphEM(func_name = "R", max_iter = 10000, max_prec = 1/1000, eval, X, Y,
-  V_g, V_e)
+MphEM(max_iter = 10000, max_prec = 1/1000, eval, X, Y, V_g, V_e)
 }
 \arguments{
-\item{func_name}{indicator for calculating restricted or unrestricted likelihood}
-
 \item{max_iter}{maximum number of iterations for EM algorithm}
 
 \item{max_prec}{maximum precision for EM algorithm}
@@ -23,6 +20,8 @@ MphEM(func_name = "R", max_iter = 10000, max_prec = 1/1000, eval, X, Y,
 \item{V_g}{covariance matrix}
 
 \item{V_e}{covariance matrix}
+
+\item{func_name}{indicator for calculating restricted or unrestricted likelihood}
 }
 \description{
 Perform EM algorithm
