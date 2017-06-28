@@ -95,15 +95,15 @@ MphEM <- function(max_iter = 10000, max_prec = 1 / 1000,
     cs_out <- calc_sigma(eval = eval, D_l = D_l,
                          X = X, OmegaU = OmegaU, OmegaE = OmegaE,
                          UltVeh = UltVeh, Qi = Qi)
-    cs_out[[1]] -> Sigma_uu
-    cs_out[[2]] -> Sigma_ee
+    cs_out[[1]] -> Sigma_ee
+    cs_out[[2]] -> Sigma_uu
     uv_out <- update_v(eval, U_hat, E_hat, Sigma_uu, Sigma_ee)
     # update V_g and V_e
     uv_out[[1]] -> V_g
     uv_out[[2]] -> V_e
     out[[t]] <- list(logl_new, V_g, V_e, Sigma_uu, Sigma_ee, B,
                      U_hat, E_hat, OmegaU, OmegaE, logdet_Ve, UltVeh, UltVehi,
-                     D_l, xHiy, logl_const)
+                     D_l, xHiy, logl_const, UltVehiU)
   }
   return(out)
 }
