@@ -79,8 +79,10 @@ MphEM <- function(max_iter = 10000, max_prec = 1 / 1000,
     #if (func_name=='R') {
     logl_new <- logl_new - 0.5 * (lndetQ - c_size * logdet_Ve)
     #}
-    if (t > 1 & logl_new - logl_old < max_prec){break}
-    #if (t > 1 & abs(logl_new - logl_old) < max_prec) {break}
+    if (t > 1){
+      if (logl_new - logl_old < max_prec){break}
+    }
+#if (t > 1 & abs(logl_new - logl_old) < max_prec) {break}
     logl_old <- logl_new
     co_out <- calc_omega(eval, D_l)
     co_out[[1]] -> OmegaU
