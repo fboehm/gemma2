@@ -64,12 +64,13 @@ calc_XHiY <- function(eval, D_l, X, UltVehiY){
 #'
 #' @param V_g a d_size by d_size covariance matrix
 #' @param V_e a d_size by d_size covariance matrix
+#' @param tol a positive number indicating the tolerance for isSymmetric
 #' @export
 #double EigenProc (const gsl_matrix *V_g, const gsl_matrix *V_e, gsl_vector *D_l, gsl_matrix *UltVeh, gsl_matrix *UltVehi)
 ##{
-eigen_proc <- function(V_g, V_e){
+eigen_proc <- function(V_g, V_e, tol = 1 / 10000){
   # check inputs
-  stopifnot(isSymmetric(V_g), isSymmetric(V_e))
+  stopifnot(isSymmetric(V_g, tol = tol), isSymmetric(V_e, tol = tol))
 #  size_t d_size=V_g->size1;
   d_size <- nrow(V_g)
 #  double d, logdet_Ve=0.0;
