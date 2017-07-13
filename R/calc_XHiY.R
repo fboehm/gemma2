@@ -96,6 +96,7 @@ eigen_proc <- function(V_g, V_e, tol = 1 / 10000){
   eigen2(V_e_temp) -> eout
   eout$values -> D_l
   eout$vectors -> U_l
+  if (length(U_l == 1)) U_l <- as.matrix(U_l)
 #
 #  //calculate V_e_h and V_e_hi
 #  gsl_matrix_set_zero(V_e_h);
@@ -143,7 +144,7 @@ eigen_proc <- function(V_g, V_e, tol = 1 / 10000){
   eigen2(Lambda) -> eout
   eout$values -> D_l
   eout$vectors -> U_l
-
+  if (length(U_l) == 1) U_l <- as.matrix(U_l)
     #
 #  for (size_t i=0; i<d_size; i++) {
 #    d=gsl_vector_get (D_l, i);
