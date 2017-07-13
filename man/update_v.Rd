@@ -16,6 +16,8 @@ update_v(eval, U, E, Sigma_uu, Sigma_ee)
 \item{Sigma_uu}{matrix}
 
 \item{Sigma_ee}{matrix}
+
+\item{tol}{a positive number indicating tolerance to be passed to isSymmetric()}
 }
 \description{
 Update V_e and V_g
