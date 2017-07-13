@@ -171,6 +171,7 @@ eigen_proc <- function(V_g, V_e, tol = 1 / 10000){
 }
 #  return logdet_Ve;
 #}
+
 #' Calculate Qi (inverse of Q) and log determinant of Q
 #'
 #' @param eval vector of eigenvalues from decomposition of relatedness matrix
