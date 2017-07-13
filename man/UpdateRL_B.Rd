@@ -4,7 +4,7 @@
 \alias{UpdateRL_B}
 \title{Update B for restricted log likelihood}
 \usage{
-UpdateRL_B(xHiy, Qi, d_size = 2)
+UpdateRL_B(xHiy, Qi, d_size)
 }
 \arguments{
 \item{xHiy}{vector}
