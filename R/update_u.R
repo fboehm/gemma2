@@ -86,7 +86,7 @@ UpdateRL_B <- function(xHiy, Qi, d_size){
 #' @param Sigma_ee matrix
 #' @param tol a positive number indicating tolerance to be passed to isSymmetric()
 #' @export
-update_v <- function(eval, U, E, Sigma_uu, Sigma_ee){
+update_v <- function(eval, U, E, Sigma_uu, Sigma_ee, tol = 1 / 10000){
   stopifnot(isSymmetric(Sigma_uu, tol = tol), isSymmetric(Sigma_ee, tol = tol))
   n_size <- length(eval)
   d_size <- nrow(U)

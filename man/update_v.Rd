@@ -4,7 +4,7 @@
 \alias{update_v}
 \title{Update V_e and V_g}
 \usage{
-update_v(eval, U, E, Sigma_uu, Sigma_ee)
+update_v(eval, U, E, Sigma_uu, Sigma_ee, tol = 1/10000)
 }
 \arguments{
 \item{eval}{vector of eigenvalues from eigendecomposition of relatedness matrix}
