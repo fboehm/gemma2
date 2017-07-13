@@ -46,7 +46,7 @@ update_e <- function(UltVehiY, UltVehiBX, UltVehiU){
 #' @param Qi Q inverse matrix
 #' @param d_size number of traits
 #' @export
-UpdateRL_B <- function(xHiy, Qi, d_size = 2){
+UpdateRL_B <- function(xHiy, Qi, d_size){
   #void UpdateRL_B (const gsl_vector *xHiy, const gsl_matrix *Qi, gsl_matrix *UltVehiB)
   #{
   #  size_t d_size=UltVehiB->size1, c_size=UltVehiB->size2, dc_size=Qi->size1;

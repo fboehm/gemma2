@@ -87,7 +87,7 @@ MphEM <- function(max_iter = 10000, max_prec = 1 / 1000,
     co_out <- calc_omega(eval, D_l)
     co_out[[1]] -> OmegaU
     co_out[[2]] -> OmegaE
-    UltVehiB <- UpdateRL_B(xHiy, Qi)
+    UltVehiB <- UpdateRL_B(xHiy, Qi, d_size = nrow(Y))
     UltVehiBX <- UltVehiB %*% X
 
     UltVehiU <- update_u(OmegaE, UltVehiY, UltVehiBX)
