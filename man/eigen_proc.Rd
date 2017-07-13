@@ -4,12 +4,14 @@
 \alias{eigen_proc}
 \title{Eigendecomposition procedure for Vg and Ve}
 \usage{
-eigen_proc(V_g, V_e)
+eigen_proc(V_g, V_e, tol = 1/10000)
 }
 \arguments{
 \item{V_g}{a d_size by d_size covariance matrix}
 
 \item{V_e}{a d_size by d_size covariance matrix}
+
+\item{tol}{a positive number indicating the tolerance for isSymmetric}
 }
 \description{
 Eigendecomposition procedure for Vg and Ve
