@@ -30,14 +30,15 @@ update_e <- function(UltVehiY, UltVehiBX, UltVehiU){
   #void UpdateE (const gsl_matrix *UltVehiY, const gsl_matrix *UltVehiBX, const gsl_matrix *UltVehiU, gsl_matrix *UltVehiE)
   #{
    # gsl_matrix_memcpy (UltVehiE, UltVehiY);
-  UltVehiY -> UltVehiE
+  #UltVehiY -> UltVehiE
   #  gsl_matrix_sub (UltVehiE, UltVehiBX);
-  UltVehiE <- UltVehiE - UltVehiBX
+  #UltVehiE <- UltVehiE - UltVehiBX
   #  gsl_matrix_sub (UltVehiE, UltVehiU);
-  UltVehiE <- UltVehiE - UltVehiU
+  #UltVehiE <- UltVehiE - UltVehiU
   #
   #  return;
   #}
+  UltVehiE <- UltVehiY - UltVehiBX - UltVehiU
   return(UltVehiE)
 }
 
