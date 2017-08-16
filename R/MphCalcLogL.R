@@ -151,9 +151,15 @@ MphEM2 <- function(max_iter = 10000, max_prec = 1 / 1000, eval, X1, X2, Y, V_g =
     ep_out[[3]] -> UltVehi
     ep_out[[4]] -> D_l
     # calc_qi
-    cq_out <- calc_qi2(eval, D_l, X)
-    cq_out[[1]] -> Qi
-    cq_out[[2]] -> lndetQ
+    cq_out <- calc_qi(eval, D_l, X1)
+    cq_out[[1]] -> Qi1
+    cq_out[[2]] -> lndetQ1
+    #
+    cq_out <- calc_qi(eval, D_l, X2)
+    cq_out[[1]] -> Qi2
+    cq_out[[2]] -> lndetQ2
+    #
+    Qi <- stagger_mats(Qi1, Qi2)
     #
     UltVehiY <- UltVehi %*% Y
     #
@@ -162,7 +168,7 @@ MphEM2 <- function(max_iter = 10000, max_prec = 1 / 1000, eval, X1, X2, Y, V_g =
                                          D_l = D_l, UltVehiY = UltVehiY,
                                          Qi = Qi) - 0.5 * n_size * logdet_Ve
     #if (func_name=='R') {
-    logl_new <- logl_new - 0.5 * (lndetQ - c_size * logdet_Ve)
+    logl_new <- logl_new - 0.5 * (lndetQ1 + lndetQ2 - c_size * logdet_Ve) # do we need the last term to be 2 * c_size * logdet_Ve??
     #}
     if (t > 1){
       if (logl_new - logl_old < max_prec){break}
