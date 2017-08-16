@@ -138,7 +138,7 @@ MphEM2 <- function(max_iter = 10000, max_prec = 1 / 1000, eval, X1, X2, Y, V_g =
   ## XXti is only used for unrestricted likelihood!
   # calculate constant for logl for REML
   #if (func_name == "R"){
-  logl_const <- - (n_size - c_size) * d_size * log(2 * pi) / 2 + d_size * log(det(XXt)) / 2
+  logl_const <- - (n_size - c_size) * d_size * log(2 * pi) + d_size * log(det(XXt)) / 2
   #}
   out <- list()
   #logl_old <- 1 # we need to define logl_old before using it within the EM iterations
@@ -163,7 +163,7 @@ MphEM2 <- function(max_iter = 10000, max_prec = 1 / 1000, eval, X1, X2, Y, V_g =
     #
     UltVehiY <- UltVehi %*% Y
     #
-    xHiy <- calc_XHiY(eval, D_l, X, UltVehiY)
+    xHiy <- calc_XHiY(eval, D_l, X1, UltVehiY)
     logl_new <- logl_const + MphCalcLogL(eval = eval, xHiy = xHiy,
                                          D_l = D_l, UltVehiY = UltVehiY,
                                          Qi = Qi) - 0.5 * n_size * logdet_Ve
