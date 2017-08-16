@@ -182,7 +182,7 @@ MphEM2 <- function(max_iter = 10000, max_prec = 1 / 1000, eval, X1, X2, Y, V_g =
     UltVehiB <- UpdateRL_B(c(xHiy1, xHiy2), Qi, d_size = nrow(Y))
     #UltVehiBX <- UltVehiB %*% X
     foo <- UltVehiB %*% X # This gives repeated entries.
-    UltVehiBX <- rbind(foo[1, 1:100], foo[2, 101:200])
+    UltVehiBX <- rbind(foo[1, 1:n_size], foo[2, (n_size + 1):(2 * n_size)])
 
     UltVehiU <- update_u(OmegaE, UltVehiY, UltVehiBX)
     UltVehiE <- update_e(UltVehiY, UltVehiBX, UltVehiU)
