@@ -17,9 +17,9 @@ MphEM(max_iter = 10000, max_prec = 1/1000, eval, X, Y, V_g, V_e)
 
 \item{Y}{matrix of phenotype values}
 
-\item{V_g}{covariance matrix}
+\item{V_g}{genetic covariance matrix}
 
-\item{V_e}{covariance matrix}
+\item{V_e}{error covariance matrix}
 }
 \description{
 Perform EM algorithm

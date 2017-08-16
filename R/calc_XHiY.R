@@ -185,7 +185,7 @@ calc_qi <- function(eval, D_l, X){
   # transposed genotypes matrix is c by n
   dc_size <- d_size * c_size
   Q <- matrix(0, nrow = dc_size, ncol = dc_size)
-
+  # What is this loop actually calculating?
   for (i in 1:c_size){
     for (j in 1:c_size){
       for (l in 1:d_size){
