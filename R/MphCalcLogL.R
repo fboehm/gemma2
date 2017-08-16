@@ -167,9 +167,9 @@ MphEM2 <- function(max_iter = 10000, max_prec = 1 / 1000, eval, X1, X2, Y, V_g =
     xHiy2 <- calc_XHiY(eval, D_l, X2, UltVehiY)
     logl_new <- logl_const + MphCalcLogL(eval = eval, xHiy = c(xHiy1, xHiy2),
                                          D_l = D_l, UltVehiY = UltVehiY,
-                                         Qi = Qi) - 0.5 * n_size * logdet_Ve
+                                         Qi = Qi) - n_size * logdet_Ve
     #if (func_name=='R') {
-    logl_new <- logl_new -  (lndetQ1 + lndetQ2 - c_size * logdet_Ve) # do we need the last term to be 2 * c_size * logdet_Ve??
+    logl_new <- logl_new -  (lndetQ1 + lndetQ2 - c_size * logdet_Ve)
     #}
     if (t > 1){
       if (logl_new - logl_old < max_prec){break}
@@ -180,7 +180,9 @@ MphEM2 <- function(max_iter = 10000, max_prec = 1 / 1000, eval, X1, X2, Y, V_g =
     co_out[[1]] -> OmegaU
     co_out[[2]] -> OmegaE
     UltVehiB <- UpdateRL_B(c(xHiy1, xHiy2), Qi, d_size = nrow(Y))
-    UltVehiBX <- UltVehiB %*% X
+    #UltVehiBX <- UltVehiB %*% X
+    foo <- UltVehiB %*% X # This gives repeated entries.
+    UltVehiBX <- rbind(foo[1, 1:100], foo[2, 101:200])
 
     UltVehiU <- update_u(OmegaE, UltVehiY, UltVehiBX)
     UltVehiE <- update_e(UltVehiY, UltVehiBX, UltVehiU)
