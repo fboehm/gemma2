@@ -16,7 +16,7 @@ update_u <- function(OmegaE, UltVehiY, UltVehiBX){
   #UltVehiU <- UltVehiU * OmegaE
   #  return;
   #}
-  UltVehiU <- (UltvehiY - UltVehiBX) * OmegaE
+  UltVehiU <- (UltVehiY - UltVehiBX) * OmegaE
   return(UltVehiU)
 }
 
