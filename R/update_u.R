@@ -8,15 +8,15 @@ update_u <- function(OmegaE, UltVehiY, UltVehiBX){
   #void UpdateU (const gsl_matrix *OmegaE, const gsl_matrix *UltVehiY, const gsl_matrix *UltVehiBX, gsl_matrix *UltVehiU)
   #{
   #  gsl_matrix_memcpy (UltVehiU, UltVehiY);
-  #UltVehiU <- UltVehiY
+  UltVehiU <- UltVehiY
   #  gsl_matrix_sub (UltVehiU, UltVehiBX);
-  #UltVehiU <- UltVehiU - UltVehiBX
+  UltVehiU <- UltVehiU - UltVehiBX
   #
   #  gsl_matrix_mul_elements (UltVehiU, OmegaE);
-  #UltVehiU <- UltVehiU * OmegaE
+  UltVehiU <- UltVehiU * OmegaE
   #  return;
   #}
-  UltVehiU <- (UltVehiY - UltVehiBX) * OmegaE
+  #UltVehiU <- (UltVehiY - UltVehiBX) * OmegaE
   return(UltVehiU)
 }
 
