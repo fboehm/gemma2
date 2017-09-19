@@ -25,9 +25,8 @@ MphEM_2loci <- function(max_iter = 10000, max_prec = 1 / 1000, eval, X1, X2, Y, 
   #XXti <- solve(XXt)
   ## XXti is only used for unrestricted likelihood!
   # calculate constant for logl for REML
-  #if (func_name == "R"){
-  logl_const <- - (n_size - c_size) * d_size * log(2 * pi) / 2 + d_size * log(det(XXt)) / 2
-  #}
+  logl_const <- - (n_size - c_size) * d_size * log(2 * pi) / 2 + d_size * log(sqrt(det(XXt))) / 2
+  # NOTE USE OF SQRT ABOVE!
   out <- list()
   #logl_old <- 1 # we need to define logl_old before using it within the EM iterations
   # start EM
@@ -52,9 +51,9 @@ MphEM_2loci <- function(max_iter = 10000, max_prec = 1 / 1000, eval, X1, X2, Y, 
                                          Qi = Qi) - 0.5 * n_size * logdet_Ve
     #if (func_name=='R') {
     logl_new <- logl_new - 0.5 * (lndetQ - c_size * logdet_Ve)#}
-    #if (t > 1){
-    #  if (logl_new - logl_old < max_prec){break}
-    #}
+    if (t > 1){
+      if (logl_new - logl_old < max_prec){break}
+    }
     #if (t > 1 & abs(logl_new - logl_old) < max_prec) {break}
     logl_old <- logl_new
     co_out <- calc_omega(eval, D_l)
