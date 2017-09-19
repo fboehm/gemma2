@@ -11,6 +11,8 @@ calc_qi_2loci <- function (eval, D_l, X1, X2)
   d_size <- length(D_l)
   c_size <- nrow(X1)
   dc_size <- d_size * c_size
+  # define X
+  X <- array(c(X1, X2), dim = c(nrow(X1), ncol(X1), 2))
   Q <- matrix(0, nrow = dc_size, ncol = dc_size)
   for (i in 1:c_size) {
     for (j in 1:c_size) {
@@ -23,8 +25,8 @@ calc_qi_2loci <- function (eval, D_l, X1, X2)
         #else {
         d <- 0
         for (k in 1:n_size) {
-          d1 <- X1[i, k]
-          d2 <- X2[j, k]
+          d1 <- X[i, k, l]
+          d2 <- X[j, k, l]
           delta <- eval[k]
           d <- d + d1 * d2/(dl * delta + 1)
         }
