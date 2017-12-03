@@ -2,7 +2,7 @@ Package: gemma2
 Title: Zhou & Stephens (2014) GEMMA multivariate linear mixed model
 Version: 0.0.1
 Authors@R: person("Frederick", "Boehm", email = "frederick.boehm@gmail.com", role = c("aut", "cre"))
-Description: Fits a multivariate linear mixed effects model that uses a polygenic term. 
+Description: Fits a multivariate linear mixed effects model that uses a polygenic term. Of particular interest is the estimation of variance components with REML.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -11,5 +11,6 @@ BugReports: https://github.com/fboehm/gemma2/issues
 Suggests: covr,
     testthat
 RoxygenNote: 6.0.1
-Imports: pleiotropy
+Imports: pleiotropy,
+    readr
 Remotes: fboehm/pleiotropy
