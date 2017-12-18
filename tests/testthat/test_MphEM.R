@@ -13,13 +13,17 @@ g2m <- geno[2, - c(1:3)] %>%
 t(as.matrix(g1)) -> g1m
 as.matrix(pheno[, c(1, 6)]) -> phe16
 
+MphEM(max_iter = 10, eval = e_out$values, X = t(g1m) %*% e_out$vectors,
+      Y = t(phe16) %*% e_out$vectors,
+      V_g = matrix(c(1.91352, 0, 0, 0.530827), nrow = 2),
+      V_e = matrix(c( 0.320028, 0, 0, 0.561589), nrow = 2)
+)-> foo
+
 context("Testing MphEM() with two phenotypes and no missing data - case of pleiotropy")
 
+
+
 test_that("First calculation of off-diagonal term for Vg is accurate", {
-  expect_equal(MphEM(max_iter = 10, eval = e_out$values, X = t(g1m) %*% e_out$vectors,
-               Y = t(phe16) %*% e_out$vectors, 
-               V_g = matrix(c(1.91352, 0, 0, 0.530827), nrow = 2),
-               V_e = matrix(c( 0.320028, 0, 0, 0.561589), nrow = 2)
-               )[[1]][[2]], 0.0700492)
-  
+  expect_equal(foo[[1]][[2]][1, 2], 0.0700492)
+
 })
