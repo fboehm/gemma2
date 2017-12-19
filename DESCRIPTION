@@ -10,5 +10,8 @@ LazyData: true
 URL: https://github.com/fboehm/gemma2
 BugReports: https://github.com/fboehm/gemma2/issues
 Suggests: covr,
-    testthat
+    testthat,
+    knitr,
+    rmarkdown
 RoxygenNote: 6.0.1
+VignetteBuilder: knitr
