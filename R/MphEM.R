@@ -1,41 +1,10 @@
-#' Calculate log likelihood
-#'
-#' @param eval eigenvalues vector from decomposition of relatedness matrix
-#' @param D_l vector of eigenvalues from decomposition of Ve matrix
-#' @param Qi inverse of Q matrix
-#' @param UltVehiY matrix of (transformed) Y values
-#' @param xHiy vector
-#' @export
-MphCalcLogL <- function(eval, D_l, Qi, UltVehiY, xHiy){
-  n_size <- length(eval)
-  d_size <- length(D_l) # d is number of phenotypes
-  dc_size <- nrow(Qi)
-  logl <- 0
-  for (k in 1:n_size){
-    delta <- eval[k]
-    for (i in 1:d_size){
-      y <- UltVehiY[i, k]
-      dl <- D_l[i]
-      d <- delta * dl + 1
-      logl <- logl + y^2 / d + log(d)
-    }
-  }
-  Qiv <- Qi %*% xHiy
-  d <- t(xHiy) %*% Qiv
-  stopifnot(length(d) == 1)
-  logl <- logl - d
-  return(- 0.5 * logl)
-}
-
-
-<<<<<<< HEAD
-#' Perform EM algorithm for multivariate LMM
+#' Perform EM algorithm
 #'
 #' @param max_iter maximum number of iterations for EM algorithm
 #' @param max_prec maximum precision for EM algorithm
 #' @param eval vector of eigenvalues from relatedness matrix decomposition
-#' @param X (rotated) design matrix
-#' @param Y (rotated) matrix of phenotype values
+#' @param X design matrix
+#' @param Y matrix of phenotype values
 #' @param V_g genetic covariance matrix
 #' @param V_e error covariance matrix
 #' @export
@@ -43,6 +12,7 @@ MphEM <- function(max_iter = 10000, max_prec = 1 / 1000,
                   eval, X, Y, V_g, V_e){
   n_size <- length(eval)
   # be careful with defining c_size here
+
   c_size <- nrow(X)
   d_size <- nrow(Y)
   dc_size <- c_size * d_size
@@ -75,13 +45,13 @@ MphEM <- function(max_iter = 10000, max_prec = 1 / 1000,
     logl_new <- logl_const + MphCalcLogL(eval = eval, xHiy = xHiy,
                                          D_l = D_l, UltVehiY = UltVehiY,
                                          Qi = Qi) - 0.5 * n_size * logdet_Ve
-    #if (func_name=='R') { # WE ALWAYS DO REML!!
+    #if (func_name=='R') {
     logl_new <- logl_new - 0.5 * (lndetQ - c_size * logdet_Ve)
     #}
     if (t > 1){
       if (logl_new - logl_old < max_prec){break}
     }
-#if (t > 1 & abs(logl_new - logl_old) < max_prec) {break}
+    #if (t > 1 & abs(logl_new - logl_old) < max_prec) {break}
     logl_old <- logl_new
     co_out <- calc_omega(eval, D_l)
     co_out[[1]] -> OmegaU
@@ -110,21 +80,3 @@ MphEM <- function(max_iter = 10000, max_prec = 1 / 1000,
   return(out)
 }
 
-
-#' Stagger two matrices of same size within a larger, block-diagonal matrix
-#'
-#' @param X1 first matrix
-#' @param X2 second matrix, of same size as first
-#' @export
-
-stagger_mats <- function(X1, X2){
-  n_mouse <- nrow(X1)
-  n_founders <- ncol(X1)
-  out <- matrix(data = 0, nrow = 2 * n_mouse, ncol = 2 * n_founders)
-  out[1:n_mouse, 1:n_founders] <- X1
-  out[(n_mouse + 1):(2 * n_mouse), (n_founders + 1):(2 * n_founders)] <- X2
-  return(out)
-}
-
-=======
->>>>>>> dab9d50aa10d426e6f6452c99db9677ec58ce2a7
