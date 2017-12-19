@@ -14,7 +14,13 @@ Suggests: covr,
     rmarkdown
 RoxygenNote: 6.0.1
 <<<<<<< HEAD
+<<<<<<< HEAD
 VignetteBuilder: knitr
+=======
+Imports: pleiotropy,
+    readr
+Remotes: fboehm/pleiotropy
+>>>>>>> dab9d50aa10d426e6f6452c99db9677ec58ce2a7
 =======
 Imports: pleiotropy,
     readr

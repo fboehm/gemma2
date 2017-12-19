@@ -29,6 +29,7 @@ MphCalcLogL <- function(eval, D_l, Qi, UltVehiY, xHiy){
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #' Perform EM algorithm for multivariate LMM
 #'
 #' @param max_iter maximum number of iterations for EM algorithm
@@ -126,5 +127,7 @@ stagger_mats <- function(X1, X2){
   return(out)
 }
 
+=======
+>>>>>>> dab9d50aa10d426e6f6452c99db9677ec58ce2a7
 =======
 >>>>>>> dab9d50aa10d426e6f6452c99db9677ec58ce2a7
