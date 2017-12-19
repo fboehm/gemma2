@@ -9,7 +9,7 @@ MphCalcLogL(eval, D_l, Qi, UltVehiY, xHiy)
 \arguments{
 \item{eval}{eigenvalues vector from decomposition of relatedness matrix}
 
-\item{D_l}{vector}
+\item{D_l}{vector of eigenvalues from decomposition of Ve matrix}
 
 \item{Qi}{inverse of Q matrix}
 
