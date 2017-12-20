@@ -7,6 +7,7 @@ e_out <- eigen2(kinship)
 library(tidyverse)
 # isolate first SNP
 g1 <- geno[1, - c(1:3)]
+# isolate second SNP
 g2m <- geno[2, - c(1:3)] %>%
   as.matrix() %>%
   t()

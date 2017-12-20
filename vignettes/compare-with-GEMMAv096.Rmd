@@ -1,10 +1,10 @@
 ---
-title: "Comparing gemma2 output with that of Zhou's GEMMA (v0.96)"
+title: "Comparing gemma2 output with that of Zhou's GEMMA"
 author: "Frederick Boehm"
 date: "`r lubridate::now()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Comparing gemma2 output with that of Zhou's GEMMA}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: gemma.bib
@@ -23,55 +23,129 @@ knitr::opts_chunk$set(
 
 $$vec(Y) = X vec(B) + vec(G) + vec(E)$$
 
-where $Y$ is a n by 2 phenotypes matrix, with each row being a single subject and each column a distinct phenotype. $X$ is a 2n by 2f matrix of genotypes, where $n$ is the sample size and $f$ is the number of founder lines. $X$ has a block-diagonal structure, so that it contains, on the diagonal, two $n$ by $f$ blocks of genotype data. The two off-diagonal blocks are all zeros. $B$ is a $f$ by $2$ matrix of founder allele effect sizes. 
+where $Y$ is a n by 2 phenotypes matrix, with each row being a single subject and each column a distinct phenotype. $X$ is a 2n by 2f matrix of genotypes, where $n$ is the sample size and $f$ is the number of founder lines. $X$ has a block-diagonal structure, so that it contains, on the diagonal, two $n$ by $f$ blocks of genotype data. The two off-diagonal blocks are all zeros. $B$ is a $f$ by $2$ matrix of founder allele effect sizes. $G$ is a $n$ by $2$ matrix of polygenic random effects that follows the distribution:
+
+$$G \sim MN_{n x 2}(0, K, V_g)$$
+
+where $MN$ denotes the matrix-variate normal distribution with mean being the n by 2 zero matrix, $K$ - a kinship matrix - being the n by n covariance among rows, and $V_g$ being the 2 by 2 covariance matrix among columns. 
+
+$E$ is a n by 2 matrix of random errors that follows the distribution:
+
+$$E \sim MN_{n x 2}(0, I_n, V_e)$$ where $I_n$ is the n by n identity matrix.
+
+Additionally, we have the usual assumption that $E$ and $G$ are independent.
+
+By applying the vectorization operator, "vec", we see that:
+
+$$vec(Y) \sim N(Xvec(B), V_g \otimes K + V_e \otimes I_n)$$
+where $\otimes$ denotes the Kronecker product.
+
+## Writing `gemma2`
+
+I wrote `gemma2` by translating, line by line, the C++ code for version 0.96 of GEMMA. Specifically, I drew heavily on the file [mvlmm.cpp](https://github.com/genetics-statistics/GEMMA/blob/master/src/mvlmm.cpp) when writing the update functions for the EM algorithm. 
+
+## Algorithmic differences from Zhou's GEMMA
+
+When fitting the above multivariate linear mixed effects model, Zhou's GEMMA uses first an EM algorithm to get reasonable starting values for input to a Newton-Raphson algorithm. The model fit is taken as the output of the Newton-Raphson algorithm. They explain that the reason for doing this is that the Newton-Raphson algorithm - with reasonable starting values - converges much faster than does the EM algorithm.
+I elected to not implement the Newton-Raphson algorithm. Instead, I use exclusively the EM algorithm output. For that reason, I can't merely look at the output of Zhou's GEMMA and compare it directly to my output from `gemma2`. Zhou's GEMMA doesn't print the (intermediate) output of its EM algorithm. 
 
 
 
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
 
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
 
-## Vignette Info
+## Comparing Zhou's GEMMA (v0.96) EM output with that of `gemma2`
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
+To compare the output of Zhou's GEMMA with that of `gemma2`, I decided to insert print statements in the C++ code of GEMMA. That way, when I run GEMMA, I get verbose output of intermediate results. That is, I can see exactly how each component is updated in the EM algorithm because I print the numerical values at each iteration of the GEMMA EM algorithm. 
 
-## Styles
+I can then ask the question: 
 
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
+> for a set of starting values, does the first iteration of EM updates by  GEMMA give the same values as the first iteration of EM updates by `gemma2`?
 
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
+There is an additional complication. GEMMA is set up so that you can't merely specify a chosen set of starting values for EM algorithm. Rather, it takes a data set as input. GEMMA then fit univariate LMMs to get the starting values for the variance components, $V_g$ and $V_e$. Note that the off-diagonal elements of $V_g$ and $V_e$ start at zero for GEMMA's methods. In other words, GEMMA takes the inputted data and fits a univariate LMM for each phenotype. It then uses those fitted values for input to the EM algorithm for a multivariate LMM, before, ultimately, using a NR algorithm to get the final mvlmm fit.
 
-## Figures
+Because of how I've added the print statements to GEMMA's C++ code, I'll need to look at the printed output from GEMMA to ensure that I use the same starting values for `gemma2`. In other words, I can't pre-specify starting values and use them in both GEMMA and `gemma2`. Instead, I need to specify a data set, then look to see where GEMMA starts its EM algorithm for mvLMM, and use input those same starting values into `gemma2`.
 
-The figure sizes have been customised so that you can easily put two images side-by-side. 
+## Running `gemma2` with example data 
 
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+First, we read the data into R.
+
+```{r}
+readr::read_csv(system.file("extdata", "mouse100.geno.txt", package = "gemma2"), col_names = FALSE) -> geno
+readr::read_tsv(system.file("extdata", "mouse100.pheno.txt", package = "gemma2"), col_names = FALSE) -> pheno
+readr::read_tsv(system.file("extdata", "mouse100.cXX.txt", package = "gemma2"), col_names = FALSE)[, 1:100] -> kinship
+
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
+We then isolate the genotypes for a single marker and convert it to a matrix.
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
 
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
+```{r}
+# isolate first SNP
+g1 <- geno[1, - c(1:3)] # first 3 columns are SNP annotations!
+t(as.matrix(g1)) -> g1m
+as.matrix(pheno[, c(1, 6)]) -> phe16
 ```
 
-Also a quote using `>`:
 
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+We load the `gemma2` R package before we decompose the kinship matrix into eigenvalues and eigenvectors.
+
+```{r}
+library(gemma2)
+e_out <- eigen2(kinship)
+```
+
+
+We then multiply the genotypes matrix by the eigenvectors:
+
+```{r}
+t(g1m) %*% e_out$vectors -> X1U
+```
+
+
+We then call the function - `MphEM` - that uses the EM algorithm:
+
+```{r}
+MphEM(eval = e_out$values, 
+      X = X1U, 
+      Y = t(phe16) %*% e_out$vectors, 
+      V_g = matrix(c(1.91352, 0, 0, 0.530827), nrow = 2), 
+      V_e = matrix(c(0.320028, 0, 0, 0.561589), nrow = 2)
+      ) -> foo
+```
+
+The output of `MphEM` has a complicated structure. It's a list of lists.
+
+```{r}
+length(foo)
+class(foo)
+```
+
+There is one list for every iteration of the EM algorithm. For each iteration of the EM algorithm, the list contains 17 components. 
+
+```{r}
+sapply(FUN = length, X = foo)
+```
+
+We can examine the code for `MphEM` to understand the outputs:
+
+```{r}
+MphEM
+```
+
+We see that the first component is the log-likelihood. 
+
+We can verify that the log-likelihood uniformly increases (over EM iterations) with the following code:
+
+```{r}
+sapply(FUN = function(x)x[[1]], X = foo) -> loglik
+plot(loglik)
+```
+
+We then 
+
+
+
+
+## References
+
