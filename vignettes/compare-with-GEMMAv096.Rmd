@@ -142,7 +142,7 @@ sapply(FUN = function(x)x[[1]], X = foo) -> loglik
 plot(loglik)
 ```
 
-We then 
+
 
 
 

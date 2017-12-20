@@ -2,15 +2,13 @@
 % Please edit documentation in R/stagger_mats.R
 \name{stagger_mats}
 \alias{stagger_mats}
-\title{Stagger matrices of same size within a larger, block-diagonal matrix}
+\title{Stagger matrices within a larger, block-diagonal matrix}
 \usage{
 stagger_mats(...)
 }
 \arguments{
-\item{X1}{first matrix}
-
-\item{X2}{second matrix, of same size as first}
+\item{...}{one or more matrices, separated by commas}
 }
 \description{
-Stagger matrices of same size within a larger, block-diagonal matrix
+Stagger matrices within a larger, block-diagonal matrix
 }
