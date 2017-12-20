@@ -7,6 +7,7 @@
 #' @param Y matrix of phenotype values
 #' @param V_g genetic covariance matrix
 #' @param V_e error covariance matrix
+#' @return a list of lists. Length of list corresponds to number of EM iterations
 #' @export
 MphEM <- function(max_iter = 10000, max_prec = 1 / 1000,
                   eval, X, Y, V_g, V_e){
