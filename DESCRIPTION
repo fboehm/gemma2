@@ -14,7 +14,5 @@ Suggests: covr,
     rmarkdown
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
-Imports: pleiotropy,
-    readr,
+Imports: readr,
     Matrix
-Remotes: fboehm/pleiotropy

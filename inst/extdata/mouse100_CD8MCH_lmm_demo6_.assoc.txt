@@ -1,0 +1,2 @@
+chr	rs	ps	n_miss	allele1	allele0	af	beta_1	beta_2	Vbeta_1_1	Vbeta_1_2	Vbeta_2_2	p_wald
+1	rs3683945	3197400	0	A	G	0.410	-1.600927e-01	-9.133241e-02	2.468369e-02	4.601810e-03	1.988846e-02	5.387570e-01

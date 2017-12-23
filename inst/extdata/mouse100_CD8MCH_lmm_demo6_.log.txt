@@ -1,0 +1,54 @@
+##
+## GEMMA Version = 0.96
+##
+## Command Line Input = ../bin/gemma -g mouse100_1snp.geno.txt -c covariates -p mouse100.pheno.txt -n 1 6 -a mouse_hs1940.anno.txt -k ./output/mouse100.cXX.txt -lmm -o mouse100_CD8MCH_lmm_demo6_ 
+##
+## Date = Wed Dec 20 13:32:58 2017
+##
+## Summary Statistics:
+## number of total individuals = 100
+## number of analyzed individuals = 100
+## number of covariates = 1
+## number of phenotypes = 2
+## number of total SNPs = 1
+## number of analyzed SNPs = 1
+## REMLE log-likelihood in the null model = -251.653
+## MLE log-likelihood in the null model = -7.98156e+08
+## REMLE estimate for Vg in the null model: 
+2.71837	
+-0.409262	0.702973	
+## se(Vg): 
+2.14408	
+0.777278	0.534521	
+## REMLE estimate for Ve in the null model: 
+0.152151	
+0.280641	0.517838	
+## se(Ve): 
+0.39676	
+0.157308	0.152923	
+## MLE estimate for Vg in the null model: 
+2.73132	-0.394865	
+-0.394865	0.737116	
+## se(Vg): 
+0.466147	
+0.280731	0.315222	
+## MLE estimate for Ve in the null model: 
+0.147467	0.27209	
+0.27209	0.502031	
+## se(Ve): 
+nan	
+1.83057e-17	5.62097e-17	
+## estimate for B (d by c) in the null model (columns correspond to the covariates provided in the file): 
+0.466418	
+0.534632	
+## se(B): 
+0.0390065	
+0.071961	
+##
+## Computation Time:
+## total computation time = 0.0474796 min 
+## computation time break down: 
+##      time on eigen-decomposition = 4.81833e-05 min 
+##      time on calculating UtX = 3.93333e-06 min 
+##      time on optimization = 0.014706 min 
+##

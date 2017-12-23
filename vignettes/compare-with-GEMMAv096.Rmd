@@ -142,8 +142,150 @@ sapply(FUN = function(x)x[[1]], X = foo) -> loglik
 plot(loglik)
 ```
 
+## Direct comparison of GEMMA results with those of `gemma2`
+
+We can run GEMMA (v0.96) with a collection of data in text files that I distribute with this package. They are a subset of the data that come with GEMMA.
+
+According to GEMMA v0.96, we should first be updating Vg from its initial value:
+$$\left(\begin{array}{cc}
+1.91352 & 0\\
+0 & 0.530827
+\end{array}\right)$$
+
+to 
+
+$$\left(\begin{array}{cc}
+1.91352 & 0.0700492\\
+0.0700492 & 0.530827
+\end{array}\right)$$
+
+in the first EM iteration. 
+
+We then ask, 
+
+> when we give `gemma2::MphEM()` the same starting values and same data, do we see that the first update of $V_g$ coincides with that from GEMMA (above)? 
+
+```{r}
+e_out <- eigen2(as.matrix(kinship))
+center_matrix(as.matrix(kinship)) -> kinship_centered
+ec_out <- eigen2(kinship_centered)
+```
+
+```{r}
+## first two
+MphEM(eval = ec_out$values, 
+      X = t(g1m) %*% ec_out$vectors, 
+      Y = t(phe16) %*% ec_out$vectors, 
+      V_g = matrix(c(1.91352, 0, 0, 0.530827), nrow = 2), 
+      V_e = matrix(c(0.320028, 0, 0, 0.561589), nrow = 2)
+      ) -> bar00
+MphEM(eval = e_out$values, 
+      X = t(g1m) %*% e_out$vectors, 
+      Y = t(phe16) %*% e_out$vectors, 
+      V_g = matrix(c(1.91352, 0, 0, 0.530827), nrow = 2), 
+      V_e = matrix(c(0.320028, 0, 0, 0.561589), nrow = 2)
+      ) -> bar10
+## second two
+MphEM(eval = ec_out$values, 
+      X = t(cbind(1, g1m)) %*% ec_out$vectors, 
+      Y = t(phe16) %*% ec_out$vectors, 
+      V_g = matrix(c(1.91352, 0, 0, 0.530827), nrow = 2), 
+      V_e = matrix(c(0.320028, 0, 0, 0.561589), nrow = 2)
+      ) -> bar01
+
+MphEM(eval = e_out$values, 
+      X = t(cbind(1, g1m)) %*% e_out$vectors, 
+      Y = t(phe16) %*% e_out$vectors, 
+      V_g = matrix(c(1.91352, 0, 0, 0.530827), nrow = 2), 
+      V_e = matrix(c(0.320028, 0, 0, 0.561589), nrow = 2)
+      ) -> bar11
+
+```
+
+We see that the centering of the kinship matrix doesn't change the results here. Look also at the convergence points:
+
+```{r}
+bar00[[length(bar00)]][[2]]
+bar01[[length(bar01)]][[2]]
+bar10[[length(bar10)]][[2]]
+bar11[[length(bar11)]][[2]]
+```
+
+I see now that the X, as inputted to MphEM is printed 3 times in each of my output files. I'm not sure why this is.
 
 
+```{r}
+t(cbind(1, g1m)) %*% e_out$vectors
+```
+
+I see that the third instance of "X," - in the file of GEMMA output - specifies that X has two rows, while the first two seem to say that X has only one row. Furthermore, it seems that the third instance of "X," has the same entries that I get when calculating `X %*% U` - namely, the first column is -10 and -8.2, the remaining entries in the first row are near zero, and the remaining entries in the second row begin with 0.52.
+
+```{bash}
+grep -A 100 -B 12 'X,' ../inst/extdata/demo6.out
+```
+
+I see now that I misread the output file from GEMMA. Within it, there are actually 3 calls (ie, per SNP) to MphEM. It's the third call that we want to reproduce.
+
+From the above output, we see that the initial values, for the third call to MphEM() are:
+
+$$V_g = \left(\begin{array}{cc}
+2.73	& -0.39	\\
+-0.39	& 0.74
+\end{array}
+\right)$$
+
+and 
+
+$$V_e = \left(\begin{array}{cc}
+0.15 & 0.27 \\
+0.27 & 0.50 
+\end{array}
+\right)$$
+
+and, after a single update, the matrices are:
+
+$$V_g = \left(\begin{array}{cc}
+2.74	& -0.40	\\
+-0.40	& 0.74
+\end{array}
+\right)$$
+
+and 
+
+$$V_e = \left(\begin{array}{cc}
+0.15 & 0.27 \\
+0.27 & 0.51 
+\end{array}
+\right)$$
+
+Can we get our `gemma2` R code to do this? 
+
+```{r}
+MphEM(eval = e_out$values, 
+      X = t(cbind(1, g1m)) %*% e_out$vectors, 
+      Y = t(phe16) %*% e_out$vectors, 
+      V_g = matrix(c(2.73, - 0.39, - 0.39, 0.74), nrow = 2), 
+      V_e = matrix(c(0.15, 0.27, 0.27, 0.50), nrow = 2)
+      ) -> out1
+out1[[1]][c(2:3)]
+```
+
+Now try with `ec_out`
+
+```{r}
+MphEM(eval = ec_out$values, 
+      X = t(cbind(1, g1m)) %*% ec_out$vectors, 
+      Y = t(phe16) %*% ec_out$vectors, 
+      V_g = matrix(c(2.731324, - 0.394865, - 0.394865, 0.737116), nrow = 2), 
+      V_e = matrix(c(0.147467, 0.272090, 0.272090, 0.502031), nrow = 2)
+      ) -> out1
+out1[[1]][c(2:3)]
+
+```
+
+The results, above, are accurate to within rounding. 
+
+> One should also think about where these initial values for $V_g$ and $V_e$ come from? Are they the values, ie the converged values, from the model fit without the genotypes data?
 
 
 

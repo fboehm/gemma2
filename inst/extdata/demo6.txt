@@ -1,0 +1,3 @@
+../bin/gemma -g mouse100_1snp.geno.txt -c covariates -p mouse100.pheno.txt\
+  -n 1 6 -a mouse_hs1940.anno.txt -k ./output/mouse100.cXX.txt \
+  -lmm -o mouse100_CD8MCH_lmm_demo6_ > demo6.out
