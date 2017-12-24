@@ -21,6 +21,9 @@ MphEM(max_iter = 10000, max_prec = 1/1000, eval, X, Y, V_g, V_e)
 
 \item{V_e}{error covariance matrix}
 }
+\value{
+a list of lists. Length of list corresponds to number of EM iterations
+}
 \description{
 Perform EM algorithm
 }
