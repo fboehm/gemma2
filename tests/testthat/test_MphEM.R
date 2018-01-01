@@ -1,7 +1,10 @@
 library(gemma2)
 library(readr)
-read_tsv("~/GEMMA/example/mouse100.pheno.txt", col_names = FALSE) -> pheno
-read_tsv("~/GEMMA/example/output/mouse100.cXX.txt", col_names = FALSE)[, 1:100] -> kinship
+#read_tsv("~/GEMMA/example/mouse100.pheno.txt", col_names = FALSE) -> pheno
+#read_tsv("~/GEMMA/example/output/mouse100.cXX.txt", col_names = FALSE)[, 1:100] -> kinship
+readr::read_tsv(system.file("extdata", "mouse100.pheno.txt", package = "gemma2"), col_names = FALSE) -> pheno
+readr::read_tsv(system.file("extdata", "mouse100.cXX.txt", package = "gemma2"), col_names = FALSE)[, 1:100] -> kinship
+
 e_out <- eigen2(kinship)
 as.matrix(pheno[, c(1, 6)]) -> phe16
 
@@ -15,7 +18,7 @@ context("Testing MphEM() with two phenotypes and intercept only (no genetic data
 
 
 
-test_that("First calculation of off-diagonal term for Vg is accurate", {
+test_that("First calculations of off-diagonal term for Vg and for Ve are accurate", {
   expect_equal(foo[[1]][[2]][1, 2], 0.07004918)
   expect_equal(foo[[1]][[3]][1, 2], 0.06912722)
 })
