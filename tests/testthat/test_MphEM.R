@@ -18,5 +18,5 @@ context("Testing MphEM() with two phenotypes and intercept only (no genetic data
 
 test_that("First calculation of off-diagonal term for Vg is accurate", {
   expect_equal(foo[[1]][[2]][1, 2], 0.07004918)
-
+  expect_equal(foo[[1]][[3]][1, 2], 0.06912722)
 })
