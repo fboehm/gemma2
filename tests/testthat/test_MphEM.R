@@ -3,7 +3,6 @@ library(readr)
 read_tsv("~/GEMMA/example/mouse100.pheno.txt", col_names = FALSE) -> pheno
 read_tsv("~/GEMMA/example/output/mouse100.cXX.txt", col_names = FALSE)[, 1:100] -> kinship
 e_out <- eigen2(kinship)
-library(tidyverse)
 as.matrix(pheno[, c(1, 6)]) -> phe16
 
 MphEM(max_iter = 10, eval = e_out$values, X = matrix(c(-10, rep(0, 99)), nrow = 1),

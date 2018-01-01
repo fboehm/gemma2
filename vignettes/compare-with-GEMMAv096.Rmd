@@ -167,7 +167,7 @@ We then ask,
 
 ```{r}
 e_out <- eigen2(as.matrix(kinship))
-center_matrix(as.matrix(kinship)) -> kinship_centered
+center_kinship(as.matrix(kinship)) -> kinship_centered
 ec_out <- eigen2(kinship_centered)
 ```
 
@@ -220,9 +220,6 @@ t(cbind(1, g1m)) %*% e_out$vectors
 
 I see that the third instance of "X," - in the file of GEMMA output - specifies that X has two rows, while the first two seem to say that X has only one row. Furthermore, it seems that the third instance of "X," has the same entries that I get when calculating `X %*% U` - namely, the first column is -10 and -8.2, the remaining entries in the first row are near zero, and the remaining entries in the second row begin with 0.52.
 
-```{bash}
-grep -A 100 -B 12 'X,' ../inst/extdata/demo6.out
-```
 
 I see now that I misread the output file from GEMMA. Within it, there are actually 3 calls (ie, per SNP) to MphEM. It's the third call that we want to reproduce.
 
