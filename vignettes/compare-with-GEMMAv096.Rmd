@@ -1,7 +1,7 @@
 ---
 title: "Comparing gemma2 output with that of Zhou's GEMMA"
 author: "Frederick Boehm"
-date: "`r lubridate::now()`"
+date: "January 2, 2018"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Comparing gemma2 output with that of Zhou's GEMMA}
