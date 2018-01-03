@@ -282,7 +282,6 @@ out1[[1]][c(2:3)]
 
 The results, above, are accurate to within rounding. 
 
-> One should also think about where these initial values for $V_g$ and $V_e$ come from? Are they the values, ie the converged values, from the model fit without the genotypes data?
 
 
 
