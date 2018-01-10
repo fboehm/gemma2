@@ -44,7 +44,7 @@ calc_XHiY <- function(eval, D_l, X, UltVehiY){
         delta <- eval[k]
         d <- d + x * y / (delta * dl + 1)
       }
-      xHiy[(j-1) * d_size + i] <- d
+      xHiy[(j - 1) * d_size + i] <- d
     }
   }
   return(xHiy)
