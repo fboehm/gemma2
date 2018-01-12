@@ -9,7 +9,7 @@
 #' @param V_e error covariance matrix
 #' @return a list of lists. Length of list corresponds to number of EM iterations
 #' @export
-MphEM <- function(max_iter = 10000, max_prec = 1 / 1000,
+MphEM <- function(max_iter = 10000, max_prec = 1 / 10000,
                   eval, X, Y, V_g, V_e){
   n_size <- length(eval)
   # be careful with defining c_size here
@@ -74,9 +74,13 @@ MphEM <- function(max_iter = 10000, max_prec = 1 / 1000,
     # update V_g and V_e
     uv_out[[1]] -> V_g
     uv_out[[2]] -> V_e
-    out[[t]] <- list(logl_new, V_g, V_e, Sigma_uu, Sigma_ee, B,
-                     U_hat, E_hat, OmegaU, OmegaE, logdet_Ve, UltVeh, UltVehi,
-                     D_l, xHiy, logl_const, UltVehiU)
+    out[[t]] <- list(logl_new = logl_new, Vg = V_g, Ve = V_e, Sigma_uu = Sigma_uu,
+                     Sigma_ee = Sigma_ee, B = B,
+                     U_hat = U_hat, E_hat = E_hat,
+                     OmegaU = OmegaU, OmegaE = OmegaE, logdet_Ve = logdet_Ve,
+                     UltVeh = UltVeh, UltVehi = UltVehi,
+                     Dl = D_l, xHiy = xHiy, logl_const = logl_const, UltVehiU = UltVehiU
+                     )
   }
   return(out)
 }

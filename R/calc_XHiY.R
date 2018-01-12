@@ -167,7 +167,7 @@ eigen_proc <- function(V_g, V_e, tol = 1 / 10000){
 #  gsl_matrix_free (VgVehi);
 #  gsl_matrix_free (U_l);
 #
-  return(list(logdet_Ve, UltVeh, UltVehi, D_l))
+  return(list(logdet_Ve = logdet_Ve, UltVeh = UltVeh, UltVehi = UltVehi, D_l = D_l ))
 }
 #  return logdet_Ve;
 #}

@@ -43,3 +43,21 @@ test_that("first entry of output is correctly calculated", {
                           matrix(c(foo[3],0, 0, foo[4]), nrow = 2))[[1]],
                log(det(matrix(c(foo[3],0, 0, foo[4]), nrow = 2))))
 })
+
+# Compare with GEMMAv0.97 outputs from EigenProc
+test_that("simple case agrees with output from GEMMA's EigenProc",{
+  expect_equal(eigen_proc(V_g = diag(c(1.91352, 0.530827)), V_e = diag(c(0.320028, 0.561589)))[[1]], -1.716332,
+               tolerance = 0.000001)
+  expect_equal(eigen_proc(V_g = diag(c(1.91352, 0.530827)), V_e = diag(c(0.320028, 0.561589)))[[2]],
+               matrix(c(0, -0.5657102, -0.7493924, 0), nrow = 2, byrow = FALSE),
+               tolerance = 0.000001
+               )
+  expect_equal(eigen_proc(V_g = diag(c(1.91352, 0.530827)), V_e = diag(c(0.320028, 0.561589)))[[3]],
+               matrix(c(0, -1.76769, -1.334414, 0), nrow = 2, byrow = FALSE),
+               tolerance = 0.000001
+               )
+  expect_equal(eigen_proc(V_g = diag(c(1.91352, 0.530827)), V_e = diag(c(0.320028, 0.561589)))[[4]],
+               c(0.9452233, 5.9792268),
+               tolerance = 0.000001
+               )
+})
