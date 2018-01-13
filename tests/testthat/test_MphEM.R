@@ -18,7 +18,7 @@ context("Testing MphEM() with two phenotypes and intercept only (no genetic data
 
 
 
-test_that("First calculations of off-diagonal term for Vg and for Ve are accurate", {
-  expect_equal(foo[[1]][[2]][1, 2], 0.07004918)
-  expect_equal(foo[[1]][[3]][1, 2], 0.06912722)
+test_that("First calculations of for Vg and for Ve are accurate", {
+  expect_equal(foo[[1]][[2]], matrix(c(1.91352, 0.0700492, 0.0700492, 0.530827), nrow = 2, ncol = 2, byrow = FALSE), tolerance = 0.000001)
+  expect_equal(foo[[1]][[3]], matrix(c(0.320028, 0.0691272, 0.0691272, 0.561589), nrow = 2, ncol = 2, byrow = FALSE), tolerance = 0.000001)
 })
