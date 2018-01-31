@@ -82,6 +82,7 @@ MphEM <- function(max_iter = 10000, max_prec = 1 / 10000,
                      Dl = D_l, xHiy = xHiy, logl_const = logl_const, UltVehiU = UltVehiU
                      )
   }
+  if (length(out) == max_iter){warning("EM algorithm didn't converge.")}
   return(out)
 }
 
