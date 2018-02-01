@@ -4,6 +4,11 @@ output: github_document
 
 [![Travis-CI Build Status](https://travis-ci.org/fboehm/gemma2.svg?branch=master)](https://travis-ci.org/fboehm/gemma2)
 
+[![Coverage Status](https://img.shields.io/codecov/c/github/fboehm/gemma2/master.svg)](https://codecov.io/github/fboehm/gemma2?branch=master)
+
+
+
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r, echo = FALSE}
