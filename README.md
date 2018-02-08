@@ -33,7 +33,7 @@ and *G* and *E* are independent.
 Installation
 ------------
 
-To install `gemma2`, use the `devtools` R package from CRAN. If you haven't installed `devtools`, please run this line fo code:
+To install `gemma2`, use the `devtools` R package from CRAN. If you haven't installed `devtools`, please run this line of code:
 
 ``` r
 install.packages("devtools")
