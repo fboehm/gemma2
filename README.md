@@ -1,4 +1,8 @@
 
+-   [Statuses](#statuses)
+-   [Overview](#overview)
+-   [Installation](#installation)
+
 Statuses
 --------
 
@@ -12,9 +16,13 @@ Overview
 
 `gemma2` is an implementation in R of the GEMMAv 0.97 EM algorithm that is part of the GEMMA algorithm for REML estimation of multivariate linear mixed effects models of the form:
 
-*v**e**c*(*Y*)=*X**v**e**c*(*B*)+*v**e**c*(*G*)+*v**e**c*(*E*) where *E* is a n by 2 matrix of random effects that follows the matrix-variate normal distribution
+*v**e**c*(*Y*)=*X**v**e**c*(*B*)+*v**e**c*(*G*)+*v**e**c*(*E*)
 
-*G* ∼ *M**N*(0, *K*, *V*<sub>*g*</sub>) where *K* is a relatedness matrix and *V*<sub>*g*</sub> is a 2 by 2 covariance matrix for the two traits of interest.
+where *E* is a n by 2 matrix of random effects that follows the matrix-variate normal distribution
+
+*G* ∼ *M**N*(0, *K*, *V*<sub>*g*</sub>)
+
+where *K* is a relatedness matrix and *V*<sub>*g*</sub> is a 2 by 2 covariance matrix for the two traits of interest.
 
 Additionally, the random errors matrix *E* follows the distribution:
 

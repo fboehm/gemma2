@@ -1,5 +1,8 @@
 ---
-output: github_document
+output:
+  github_document:
+    toc: true
+    toc_depth: 2
 ---
 
 ## Statuses
@@ -24,13 +27,17 @@ knitr::opts_chunk$set(
 
 `gemma2` is an implementation in R of the GEMMAv 0.97 EM algorithm that is part of the GEMMA algorithm for REML estimation of multivariate linear mixed effects models of the form:
 
-$vec(Y) = X vec(B) + vec(G) + vec(E)$ where $E$ is a n by 2 matrix of random effects that follows the matrix-variate normal distribution
+$$vec(Y) = X vec(B) + vec(G) + vec(E)$$ 
 
-$G \sim MN(0, K, V_g)$ where $K$ is a relatedness matrix and $V_g$ is a 2 by 2 covariance matrix for the two traits of interest.
+where $E$ is a n by 2 matrix of random effects that follows the matrix-variate normal distribution
+
+$$G \sim MN(0, K, V_g)$$ 
+
+where $K$ is a relatedness matrix and $V_g$ is a 2 by 2 covariance matrix for the two traits of interest.
 
 Additionally, the random errors matrix $E$ follows the distribution:
 
-$E \sim MN(0, I_n, V_e)$
+$$E \sim MN(0, I_n, V_e)$$
 
 and $G$ and $E$ are independent.
 
