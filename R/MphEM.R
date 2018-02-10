@@ -9,7 +9,7 @@
 #' @param V_e error covariance matrix
 #' @return a list of lists. Length of list corresponds to number of EM iterations
 #' @export
-MphEM <- function(max_iter = 10000, max_prec = 1 / 10000,
+MphEM <- function(max_iter = 10000, max_prec = 1 / 1000000,
                   eval, X, Y, V_g, V_e){
   n_size <- length(eval)
   # be careful with defining c_size here
