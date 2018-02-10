@@ -4,7 +4,7 @@
 \alias{MphEM}
 \title{Perform EM algorithm}
 \usage{
-MphEM(max_iter = 10000, max_prec = 1/10000, eval, X, Y, V_g, V_e)
+MphEM(max_iter = 10000, max_prec = 1/1e+06, eval, X, Y, V_g, V_e)
 }
 \arguments{
 \item{max_iter}{maximum number of iterations for EM algorithm}
