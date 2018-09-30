@@ -7,10 +7,12 @@
 #' @param Y matrix of phenotype values
 #' @param V_g genetic covariance matrix
 #' @param V_e error covariance matrix
+#' @param verbose_output logical indicating whether to output entire collection of intermediate values for all iterations. Default is FALSE.
 #' @return a list of lists. Length of list corresponds to number of EM iterations
 #' @export
 MphEM <- function(max_iter = 10000, max_prec = 1 / 1000000,
-                  eval, X, Y, V_g, V_e){
+                  eval, X, Y, V_g, V_e,
+                  verbose_output = FALSE){
   n_size <- length(eval)
   # be careful with defining c_size here
 
@@ -74,13 +76,23 @@ MphEM <- function(max_iter = 10000, max_prec = 1 / 1000000,
     # update V_g and V_e
     uv_out[[1]] -> V_g
     uv_out[[2]] -> V_e
-    out[[t]] <- list(logl_new = logl_new, Vg = V_g, Ve = V_e, Sigma_uu = Sigma_uu,
+    if (verbose_output) {
+      out[[t]] <- list(logl_new = logl_new, Vg = V_g, Ve = V_e, Sigma_uu = Sigma_uu,
                      Sigma_ee = Sigma_ee, B = B,
                      U_hat = U_hat, E_hat = E_hat,
                      OmegaU = OmegaU, OmegaE = OmegaE, logdet_Ve = logdet_Ve,
                      UltVeh = UltVeh, UltVehi = UltVehi,
                      Dl = D_l, xHiy = xHiy, logl_const = logl_const, UltVehiU = UltVehiU
                      )
+    } else {
+      out[[1]] <- list(logl_new = logl_new, Vg = V_g, Ve = V_e, Sigma_uu = Sigma_uu,
+                       Sigma_ee = Sigma_ee, B = B,
+                       U_hat = U_hat, E_hat = E_hat,
+                       OmegaU = OmegaU, OmegaE = OmegaE, logdet_Ve = logdet_Ve,
+                       UltVeh = UltVeh, UltVehi = UltVehi,
+                       Dl = D_l, xHiy = xHiy, logl_const = logl_const, UltVehiU = UltVehiU
+      )
+    }
   }
   if (length(out) == max_iter){warning("EM algorithm didn't converge.")}
   return(out)

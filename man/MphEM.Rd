@@ -2,9 +2,10 @@
 % Please edit documentation in R/MphEM.R
 \name{MphEM}
 \alias{MphEM}
-\title{Perform EM algorithm}
+\title{Perform EM algorithm to infer Vg and Ve values for a pair of traits.}
 \usage{
-MphEM(max_iter = 10000, max_prec = 1/1e+06, eval, X, Y, V_g, V_e)
+MphEM(max_iter = 10000, max_prec = 1/1e+06, eval, X, Y, V_g, V_e,
+  verbose_output = FALSE)
 }
 \arguments{
 \item{max_iter}{maximum number of iterations for EM algorithm}
@@ -20,10 +21,12 @@ MphEM(max_iter = 10000, max_prec = 1/1e+06, eval, X, Y, V_g, V_e)
 \item{V_g}{genetic covariance matrix}
 
 \item{V_e}{error covariance matrix}
+
+\item{verbose_output}{logical indicating whether to output entire collection of intermediate values for all iterations. Default is FALSE.}
 }
 \value{
 a list of lists. Length of list corresponds to number of EM iterations
 }
 \description{
-Perform EM algorithm
+Perform EM algorithm to infer Vg and Ve values for a pair of traits.
 }
