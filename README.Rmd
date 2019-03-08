@@ -59,5 +59,11 @@ Then, run this line of code to install `gemma2`:
 devtools::install_github("fboehm/gemma2")
 ```
 
+## References
+
+X. Zhou & M. Stephens. Efficient multivariate linear mixed model algorithms for genome-wide association studies. *Nature Methods* volume 11, pages 407–409 (2014). https://www.nature.com/articles/nmeth.2848
+
+https://github.com/genetics-statistics/GEMMA
+
 
 
