@@ -9,6 +9,15 @@ stagger_mats(...)
 \arguments{
 \item{...}{one or more matrices, separated by commas}
 }
+\value{
+a block-diagonal matrix, with the inputted matrices as blocks on the diagonal.
+}
 \description{
 Stagger matrices within a larger, block-diagonal matrix
+}
+\examples{
+foo <- rnorm(40000, ncol = 8)
+block_diag <- stagger_mats(foo, foo)
+dim(foo)
+dim(block_diag)
 }
