@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-`gemma2` is an implementation in R of the GEMMAv 0.97 EM algorithm that is part of the GEMMA algorithm for REML estimation of multivariate linear mixed effects models of the form:
+`gemma2` is an implementation in R of the GEMMA v 0.97 EM algorithm that is part of the GEMMA algorithm for REML estimation of multivariate linear mixed effects models of the form:
 
 $$vec(Y) = X vec(B) + vec(G) + vec(E)$$ 
 

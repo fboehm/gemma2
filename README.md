@@ -1,39 +1,39 @@
 
--   [Statuses](#statuses)
--   [Overview](#overview)
--   [Installation](#installation)
+## Statuses
 
-Statuses
---------
-
-[![Travis-CI Build Status](https://travis-ci.org/fboehm/gemma2.svg?branch=master)](https://travis-ci.org/fboehm/gemma2)
+[![Travis-CI Build
+Status](https://travis-ci.org/fboehm/gemma2.svg?branch=master)](https://travis-ci.org/fboehm/gemma2)
 
 [![codecov](https://codecov.io/gh/fboehm/gemma2/branch/master/graph/badge.svg)](https://codecov.io/gh/fboehm/gemma2)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-Overview
---------
 
-`gemma2` is an implementation in R of the GEMMAv 0.97 EM algorithm that is part of the GEMMA algorithm for REML estimation of multivariate linear mixed effects models of the form:
+## Overview
 
-*v**e**c*(*Y*)=*X**v**e**c*(*B*)+*v**e**c*(*G*)+*v**e**c*(*E*)
+`gemma2` is an implementation in R of the GEMMA v 0.97 EM algorithm that
+is part of the GEMMA algorithm for REML estimation of multivariate
+linear mixed effects models of the form:
 
-where *E* is a n by 2 matrix of random effects that follows the matrix-variate normal distribution
+\[vec(Y) = X vec(B) + vec(G) + vec(E)\]
 
-*G* ∼ *M**N*(0, *K*, *V*<sub>*g*</sub>)
+where \(E\) is a n by 2 matrix of random effects that follows the
+matrix-variate normal distribution
 
-where *K* is a relatedness matrix and *V*<sub>*g*</sub> is a 2 by 2 covariance matrix for the two traits of interest.
+\[G \sim MN(0, K, V_g)\]
 
-Additionally, the random errors matrix *E* follows the distribution:
+where \(K\) is a relatedness matrix and \(V_g\) is a 2 by 2 covariance
+matrix for the two traits of interest.
 
-*E* ∼ *M**N*(0, *I*<sub>*n*</sub>, *V*<sub>*e*</sub>)
+Additionally, the random errors matrix \(E\) follows the distribution:
 
-and *G* and *E* are independent.
+\[E \sim MN(0, I_n, V_e)\]
 
-Installation
-------------
+and \(G\) and \(E\) are independent.
 
-To install `gemma2`, use the `devtools` R package from CRAN. If you haven't installed `devtools`, please run this line of code:
+## Installation
+
+To install `gemma2`, use the `devtools` R package from CRAN. If you
+haven’t installed `devtools`, please run this line of code:
 
 ``` r
 install.packages("devtools")
@@ -44,3 +44,11 @@ Then, run this line of code to install `gemma2`:
 ``` r
 devtools::install_github("fboehm/gemma2")
 ```
+
+## References
+
+X. Zhou & M. Stephens. Efficient multivariate linear mixed model
+algorithms for genome-wide association studies. *Nature Methods* volume
+11, pages 407–409 (2014). <https://www.nature.com/articles/nmeth.2848>
+
+<https://github.com/genetics-statistics/GEMMA>
