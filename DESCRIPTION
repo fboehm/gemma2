@@ -1,6 +1,6 @@
 Package: gemma2
 Title: Zhou & Stephens (2014) GEMMA Multivariate Linear Mixed Model
-Version: 0.0.1.1
+Version: 0.0.2
 Authors@R: c(
     person(given = "Frederick", 
     family = "Boehm", 
