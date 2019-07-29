@@ -2,7 +2,7 @@
 % Please edit documentation in R/MphEM.R
 \name{MphEM}
 \alias{MphEM}
-\title{Perform EM algorithm to infer Vg and Ve values for a pair of traits.}
+\title{Perform expectation-maximization algorithm to infer Vg and Ve values for a pair of traits.}
 \usage{
 MphEM(max_iter = 10000, max_prec = 1/1e+06, eval, X, Y, V_g, V_e,
   verbose_output = FALSE)
@@ -28,5 +28,5 @@ MphEM(max_iter = 10000, max_prec = 1/1e+06, eval, X, Y, V_g, V_e,
 a list of lists. Length of list corresponds to number of EM iterations
 }
 \description{
-Perform EM algorithm to infer Vg and Ve values for a pair of traits.
+Perform expectation-maximization algorithm to infer Vg and Ve values for a pair of traits.
 }

@@ -1,4 +1,4 @@
-#' Perform EM algorithm to infer Vg and Ve values for a pair of traits.
+#' Perform expectation-maximization algorithm to infer Vg and Ve values for a pair of traits.
 #'
 #' @param max_iter maximum number of iterations for EM algorithm
 #' @param max_prec maximum precision for EM algorithm

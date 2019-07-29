@@ -11,6 +11,9 @@ calc_omega(eval, D_l)
 
 \item{D_l}{vector of length d_size}
 }
+\value{
+list of length 2. First entry in the list is the symmetric matrix OmegaU. Second entry in the list is the symmetric matrix OmegaE.
+}
 \description{
 Calculate Omega matrices
 }
