@@ -3,7 +3,7 @@
 #' @param max_iter maximum number of iterations for EM algorithm
 #' @param max_prec maximum precision for EM algorithm
 #' @param eval vector of eigenvalues from relatedness matrix decomposition
-#' @param X design matrix
+#' @param X design matrix. Typically contains founder allele dosages.
 #' @param Y matrix of phenotype values
 #' @param V_g genetic covariance matrix
 #' @param V_e error covariance matrix
