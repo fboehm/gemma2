@@ -14,7 +14,7 @@ MphEM(max_iter = 10000, max_prec = 1/1e+06, eval, X, Y, V_g, V_e,
 
 \item{eval}{vector of eigenvalues from relatedness matrix decomposition}
 
-\item{X}{design matrix}
+\item{X}{design matrix. Typically contains founder allele dosages.}
 
 \item{Y}{matrix of phenotype values}
 
