@@ -16,3 +16,8 @@ UpdateRL_B(xHiy, Qi, d_size)
 \description{
 Update B for restricted log likelihood
 }
+\seealso{
+Other expectation-maximization functions: \code{\link{update_e}},
+  \code{\link{update_u}}, \code{\link{update_v}}
+}
+\concept{expectation-maximization functions}

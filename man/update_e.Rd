@@ -16,3 +16,8 @@ update_e(UltVehiY, UltVehiBX, UltVehiU)
 \description{
 Update E
 }
+\seealso{
+Other expectation-maximization functions: \code{\link{UpdateRL_B}},
+  \code{\link{update_u}}, \code{\link{update_v}}
+}
+\concept{expectation-maximization functions}

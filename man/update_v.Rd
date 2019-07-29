@@ -22,3 +22,8 @@ update_v(eval, U, E, Sigma_uu, Sigma_ee, tol = 1/10000)
 \description{
 Update V_e and V_g
 }
+\seealso{
+Other expectation-maximization functions: \code{\link{UpdateRL_B}},
+  \code{\link{update_e}}, \code{\link{update_u}}
+}
+\concept{expectation-maximization functions}

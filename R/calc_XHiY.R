@@ -5,6 +5,19 @@
 #' @param X design matrix
 #' @param UltVehiY a matrix
 #' @export
+#' @return numeric vector
+#' @examples
+#' readr::read_tsv(system.file("extdata", "mouse100.pheno.txt", package = "gemma2"), col_names = FALSE) -> pheno
+#' phe16 <- as.matrix(pheno[, c(1, 6)])
+#' as.matrix(readr::read_tsv(system.file("extdata", "mouse100.cXX.txt", package = "gemma2"), col_names = FALSE)[, 1:100]) -> kinship
+#' eigen2(kinship) -> eout
+#' eout$values -> eval
+#' eout$vectors -> U
+#' UltVehi <- matrix(c(0, -1.76769, -1.334414, 0), nrow = 2, byrow = FALSE) # from output of eigen_proc()
+#' calc_XHiY(eval = eval, D_l = c(0.9452233, 5.9792268),
+#'           X = rep(1, 100) %*% U,
+#'           UltVehiY = UltVehi %*% t(phe16) %*% U
+#'           )
 
 #void CalcXHiY(const gsl_vector *eval, const gsl_vector *D_l, const gsl_matrix *X, const gsl_matrix *UltVehiY, gsl_vector *xHiy)
 #{
@@ -176,8 +189,17 @@ eigen_proc <- function(V_g, V_e, tol = 1 / 10000){
 #'
 #' @param eval vector of eigenvalues from decomposition of relatedness matrix
 #' @param D_l vector of length d_size
-#' @param X a design matrix
+#' @param X design matrix
 #' @export
+#' @return a list of length two. First entry in the list is a symmetric numeric matrix, Qi, the inverse of the Q matrix. The second entry in the outputted list is the log determinant of the matrix Q for use in likelihood calculations.
+#' @examples
+#' as.matrix(readr::read_tsv(system.file("extdata", "mouse100.cXX.txt", package = "gemma2"), col_names = FALSE)[, 1:100]) -> kinship
+#' eigen2(kinship) -> e2_out
+#' e2_out$values -> eval
+#' e2_out$vectors -> U
+#' eigen_proc(V_g = diag(c(1.91352, 0.530827)), V_e = diag(c(0.320028, 0.561589))) -> ep_out
+#'
+#' calc_qi(eval = eval, D_l = ep_out[[4]], X = t(rep(1, 100)) %*% U)
 calc_qi <- function(eval, D_l, X){
   n_size <- length(eval)
   d_size <- length(D_l)
@@ -216,6 +238,7 @@ calc_qi <- function(eval, D_l, X){
 #' @param eval vector of eigenvalues from decomposition of relatedness matrix
 #' @param D_l vector of length d_size
 #' @export
+#' @return list of length 2. First entry in the list is the symmetric matrix OmegaU. Second entry in the list is the symmetric matrix OmegaE.
 calc_omega <- function(eval, D_l){
   n_size <- length(eval)
   d_size <- length(D_l)

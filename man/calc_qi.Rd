@@ -11,8 +11,20 @@ calc_qi(eval, D_l, X)
 
 \item{D_l}{vector of length d_size}
 
-\item{X}{a design matrix}
+\item{X}{design matrix}
+}
+\value{
+a list of length two. First entry in the list is a symmetric numeric matrix, Qi, the inverse of the Q matrix. The second entry in the outputted list is the log determinant of the matrix Q for use in likelihood calculations.
 }
 \description{
 Calculate Qi (inverse of Q) and log determinant of Q
+}
+\examples{
+as.matrix(readr::read_tsv(system.file("extdata", "mouse100.cXX.txt", package = "gemma2"), col_names = FALSE)[, 1:100]) -> kinship
+eigen2(kinship) -> e2_out
+e2_out$values -> eval
+e2_out$vectors -> U
+eigen_proc(V_g = diag(c(1.91352, 0.530827)), V_e = diag(c(0.320028, 0.561589))) -> ep_out
+
+calc_qi(eval = eval, D_l = ep_out[[4]], X = t(rep(1, 100)) \%*\% U)
 }

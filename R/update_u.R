@@ -4,6 +4,21 @@
 #' @param UltVehiY matrix
 #' @param UltVehiBX matrix
 #' @export
+#' @family expectation-maximization functions
+#' @examples
+#' readr::read_tsv(system.file("extdata", "mouse100.pheno.txt", package = "gemma2"), col_names = FALSE) -> pheno
+#' phe16 <- as.matrix(pheno[, c(1, 6)])
+#' as.matrix(readr::read_tsv(system.file("extdata", "mouse100.cXX.txt", package = "gemma2"), col_names = FALSE)[, 1:100]) -> kinship
+#' eigen2(kinship) -> e2_out
+#' e2_out$values -> eval
+#' e2_out$vectors -> U
+#' eigen_proc(V_g = diag(c(1.91352, 0.530827)), V_e = diag(c(0.320028, 0.561589))) -> ep_out
+#' UltVehi <- ep_out[[3]]
+#' calc_omega(eval, ep_out$D_l) -> co_out
+#' update_u(OmegaE = co_out[[2]],
+#'         UltVehiY = UltVehi %*% t(phe16),
+#'         UltVehiBX = matrix(c(-0.71342, -0.824482), ncol = 1) %*% t(rep(1, 100))
+#' )
 update_u <- function(OmegaE, UltVehiY, UltVehiBX){
   #void UpdateU (const gsl_matrix *OmegaE, const gsl_matrix *UltVehiY, const gsl_matrix *UltVehiBX, gsl_matrix *UltVehiU)
   #{
@@ -25,6 +40,7 @@ update_u <- function(OmegaE, UltVehiY, UltVehiBX){
 #' @param UltVehiY matrix of transformed Y values
 #' @param UltVehiBX matrix of transformed BX values
 #' @param UltVehiU matrix of transformed U values
+#' @family expectation-maximization functions
 #' @export
 update_e <- function(UltVehiY, UltVehiBX, UltVehiU){
   #void UpdateE (const gsl_matrix *UltVehiY, const gsl_matrix *UltVehiBX, const gsl_matrix *UltVehiU, gsl_matrix *UltVehiE)
@@ -47,6 +63,7 @@ update_e <- function(UltVehiY, UltVehiBX, UltVehiU){
 #' @param xHiy vector
 #' @param Qi Q inverse matrix
 #' @param d_size number of traits
+#' @family expectation-maximization functions
 #' @export
 UpdateRL_B <- function(xHiy, Qi, d_size){
   #void UpdateRL_B (const gsl_vector *xHiy, const gsl_matrix *Qi, gsl_matrix *UltVehiB)
@@ -87,6 +104,7 @@ UpdateRL_B <- function(xHiy, Qi, d_size){
 #' @param Sigma_uu matrix
 #' @param Sigma_ee matrix
 #' @param tol a positive number indicating tolerance to be passed to isSymmetric()
+#' @family expectation-maximization functions
 #' @export
 update_v <- function(eval, U, E, Sigma_uu, Sigma_ee, tol = 1 / 10000){
   stopifnot(isSymmetric(Sigma_uu, tol = tol), isSymmetric(Sigma_ee, tol = tol))
