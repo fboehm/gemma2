@@ -22,14 +22,23 @@ numeric vector
 Calculate XHiY
 }
 \examples{
-readr::read_tsv(system.file("extdata", "mouse100.pheno.txt", package = "gemma2"), col_names = FALSE) -> pheno
+readr::read_tsv(system.file("extdata",
+"mouse100.pheno.txt",
+package = "gemma2"),
+col_names = FALSE) -> pheno
 phe16 <- as.matrix(pheno[, c(1, 6)])
-as.matrix(readr::read_tsv(system.file("extdata", "mouse100.cXX.txt", package = "gemma2"), col_names = FALSE)[, 1:100]) -> kinship
+as.matrix(readr::read_tsv(system.file("extdata",
+"mouse100.cXX.txt",
+package = "gemma2"),
+col_names = FALSE)[, 1:100]) -> kinship
 eigen2(kinship) -> eout
 eout$values -> eval
 eout$vectors -> U
-UltVehi <- matrix(c(0, -1.76769, -1.334414, 0), nrow = 2, byrow = FALSE) # from output of eigen_proc()
-calc_XHiY(eval = eval, D_l = c(0.9452233, 5.9792268),
+UltVehi <- matrix(c(0, -1.76769, -1.334414, 0),
+nrow = 2,
+byrow = FALSE) # from output of eigen_proc()
+calc_XHiY(eval = eval,
+D_l = c(0.9452233, 5.9792268),
           X = rep(1, 100) \%*\% U,
           UltVehiY = UltVehi \%*\% t(phe16) \%*\% U
           )
