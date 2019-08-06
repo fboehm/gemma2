@@ -54,7 +54,7 @@ Thanks. I've added text in the Description field to explain GEMMA. I've avoided 
 > Please add more examples in your Rd-files. Since you have tests, you can 
 > wrap them in \donttest{}.
 
-
+Thank you. I've added examples for all exported functions.
 
 ### Point 4
 
@@ -76,6 +76,6 @@ Thanks. I've added text in the Description field to explain GEMMA. I've avoided 
 
 > Please fix and resubmit.
 
-Best,
-Swetlana Herbrandt
+> Best,
+> Swetlana Herbrandt
 
