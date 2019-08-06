@@ -7,20 +7,28 @@
 #' @export
 #' @return numeric vector
 #' @examples
-#' readr::read_tsv(system.file("extdata", "mouse100.pheno.txt", package = "gemma2"), col_names = FALSE) -> pheno
+#' readr::read_tsv(system.file("extdata",
+#' "mouse100.pheno.txt",
+#' package = "gemma2"),
+#' col_names = FALSE) -> pheno
 #' phe16 <- as.matrix(pheno[, c(1, 6)])
-#' as.matrix(readr::read_tsv(system.file("extdata", "mouse100.cXX.txt", package = "gemma2"), col_names = FALSE)[, 1:100]) -> kinship
+#' as.matrix(readr::read_tsv(system.file("extdata",
+#' "mouse100.cXX.txt",
+#' package = "gemma2"),
+#' col_names = FALSE)[, 1:100]) -> kinship
 #' eigen2(kinship) -> eout
 #' eout$values -> eval
 #' eout$vectors -> U
-#' UltVehi <- matrix(c(0, -1.76769, -1.334414, 0), nrow = 2, byrow = FALSE) # from output of eigen_proc()
-#' calc_XHiY(eval = eval, D_l = c(0.9452233, 5.9792268),
+#' UltVehi <- matrix(c(0, -1.76769, -1.334414, 0),
+#' nrow = 2,
+#' byrow = FALSE) # from output of eigen_proc()
+#' calc_XHiY(eval = eval,
+#' D_l = c(0.9452233, 5.9792268),
 #'           X = rep(1, 100) %*% U,
 #'           UltVehiY = UltVehi %*% t(phe16) %*% U
 #'           )
 
-#void CalcXHiY(const gsl_vector *eval, const gsl_vector *D_l, const gsl_matrix *X, const gsl_matrix *UltVehiY, gsl_vector *xHiy)
-#{
+
 calc_XHiY <- function(eval, D_l, X, UltVehiY){
   # check inputs
   stopifnot(length(eval) == ncol(X),
@@ -29,24 +37,7 @@ calc_XHiY <- function(eval, D_l, X, UltVehiY){
   n_size <- length(eval)
   c_size <- nrow(X)
   d_size <- length(D_l)
-  #  size_t n_size=eval->size, c_size=X->size1, d_size=D_l->size;
- #
-#  gsl_vector_set_zero (xHiy);
   xHiy <- rep(0, d_size * c_size)
-  #
-#  double x, delta, dl, y, d;
-#  for (size_t i=0; i<d_size; i++) {
-#    dl=gsl_vector_get(D_l, i);
-#    for (size_t j=0; j<c_size; j++) {
-#      d=0.0;
-#      for (size_t k=0; k<n_size; k++) {
-#        x=gsl_matrix_get(X, j, k);
-#        y=gsl_matrix_get(UltVehiY, i, k);
-#        delta=gsl_vector_get(eval, k);
-#        d+=x*y/(delta*dl+1.0);
-#      }
-#      gsl_vector_set(xHiy, j*d_size+i, d);
-#    }
   for (i in 1:d_size){
     dl <- D_l[i]
     for (j in 1:c_size){
@@ -62,15 +53,6 @@ calc_XHiY <- function(eval, D_l, X, UltVehiY){
   }
   return(xHiy)
 }
-#  }
-#  cout<<"xHiy: "<<endl;
-#  for (size_t i=0; i<(d_size*c_size); i++) {
-#    cout<<gsl_vector_get(xHiy, i)<<endl;
-#  }
-#  cout<<"c_size: "<<endl;
-#  cout<<c_size<<endl;
-#  return;
-#}
 
 
 #' Eigendecomposition procedure for Vg and Ve
@@ -79,111 +61,45 @@ calc_XHiY <- function(eval, D_l, X, UltVehiY){
 #' @param V_e a d_size by d_size covariance matrix
 #' @param tol a positive number indicating the tolerance for isSymmetric
 #' @export
-#double EigenProc (const gsl_matrix *V_g, const gsl_matrix *V_e, gsl_vector *D_l, gsl_matrix *UltVeh, gsl_matrix *UltVehi)
-##{
 eigen_proc <- function(V_g, V_e, tol = 1 / 10000){
   # check inputs
   stopifnot(isSymmetric(V_g, tol = tol), isSymmetric(V_e, tol = tol))
-#  size_t d_size=V_g->size1;
   d_size <- nrow(V_g)
-#  double d, logdet_Ve=0.0;
   logdet_Ve <- 0
-#
-#  //eigen decomposition of V_e
-#  gsl_matrix *Lambda=gsl_matrix_alloc (d_size, d_size);
   Lambda <- matrix(nrow = d_size, ncol = d_size)
-#  gsl_matrix *V_e_temp=gsl_matrix_alloc (d_size, d_size);
   V_e_temp <- matrix(nrow = d_size, ncol = d_size)
-#  gsl_matrix *V_e_h=gsl_matrix_alloc (d_size, d_size);
   V_e_h <- matrix(0, nrow = d_size, ncol = d_size)
-#  gsl_matrix *V_e_hi=gsl_matrix_alloc (d_size, d_size);
   V_e_hi <- matrix(0, nrow = d_size, ncol = d_size)
-#  gsl_matrix *VgVehi=gsl_matrix_alloc (d_size, d_size);
   VgVehi <- matrix(nrow = d_size, ncol = d_size)
-#  gsl_matrix *U_l=gsl_matrix_alloc (d_size, d_size);
   U_l <- matrix(nrow = d_size, ncol = d_size)
-#
-#  gsl_matrix_memcpy(V_e_temp, V_e);
   V_e -> V_e_temp
-#  EigenDecomp(V_e_temp, U_l, D_l, 0);
   eigen2(V_e_temp) -> eout
   eout$values -> D_l
   eout$vectors -> U_l
   if (length(U_l == 1)) U_l <- as.matrix(U_l)
-#
-#  //calculate V_e_h and V_e_hi
-#  gsl_matrix_set_zero(V_e_h);
-#  gsl_matrix_set_zero(V_e_hi);
-#  for (size_t i=0; i<d_size; i++) {
   for (i in 1:d_size){
-#    d=gsl_vector_get (D_l, i);
     d <- D_l[i]
-#    if (d<=0) {continue;}
     if (d > 0){
-#    logdet_Ve+=log(d);
       logdet_Ve <- logdet_Ve + log(d)
-#
-#    gsl_vector_view U_col=gsl_matrix_column(U_l, i);
       U_col <- U_l[, i]
       d <- sqrt(d)
-#    d=sqrt(d);
-#    gsl_blas_dsyr (CblasUpper, d, &U_col.vector, V_e_h);
       V_e_h <- V_e_h + d * U_col %*% t(U_col)
-#    d=1.0/d;
-#    gsl_blas_dsyr (CblasUpper, d, &U_col.vector, V_e_hi);
       V_e_hi <- V_e_hi + U_col %*% t(U_col) / d
     }
   }
-#  }
-#
-#  //copy the upper part to lower part
-#  for (size_t i=0; i<d_size; i++) {
-#    for (size_t j=0; j<i; j++) {
-#      gsl_matrix_set (V_e_h, i, j, gsl_matrix_get(V_e_h, j, i));
-#      gsl_matrix_set (V_e_hi, i, j, gsl_matrix_get(V_e_hi, j, i));
-#    }
-#  }
-#
-#  //calculate Lambda=V_ehi V_g V_ehi
-#  gsl_blas_dgemm(CblasNoTrans, CblasNoTrans, 1.0, V_g, V_e_hi, 0.0, VgVehi);
   V_g %*% V_e_hi -> VgVehi
-
-#  gsl_blas_dgemm(CblasNoTrans, CblasNoTrans, 1.0, V_e_hi, VgVehi, 0.0, Lambda);
   Lambda <- V_e_hi %*% VgVehi
 
-    #
-#  //eigen decomposition of Lambda
-#  EigenDecomp(Lambda, U_l, D_l, 0);
   eigen2(Lambda) -> eout
   eout$values -> D_l
   eout$vectors -> U_l
   if (length(U_l) == 1) U_l <- as.matrix(U_l)
-    #
-#  for (size_t i=0; i<d_size; i++) {
-#    d=gsl_vector_get (D_l, i);
   D_l[D_l < 0] <- 0
-#    if (d<0) {gsl_vector_set (D_l, i, 0);}
-#  }
-#
-#  //calculate UltVeh and UltVehi
-#  gsl_blas_dgemm(CblasTrans, CblasNoTrans, 1.0, U_l, V_e_h, 0.0, UltVeh);
   UltVeh <- t(U_l) %*% V_e_h
-#  gsl_blas_dgemm(CblasTrans, CblasNoTrans, 1.0, U_l, V_e_hi, 0.0, UltVehi);
   UltVehi <- t(U_l) %*% V_e_hi
 
-#
-#    //free memory
-#  gsl_matrix_free (Lambda);
-#  gsl_matrix_free (V_e_temp);
-#  gsl_matrix_free (V_e_h);
-#  gsl_matrix_free (V_e_hi);
-#  gsl_matrix_free (VgVehi);
-#  gsl_matrix_free (U_l);
-#
   return(list(logdet_Ve = logdet_Ve, UltVeh = UltVeh, UltVehi = UltVehi, D_l = D_l ))
 }
-#  return logdet_Ve;
-#}
 
 #' Calculate Qi (inverse of Q) and log determinant of Q
 #'
@@ -193,13 +109,19 @@ eigen_proc <- function(V_g, V_e, tol = 1 / 10000){
 #' @export
 #' @return a list of length two. First entry in the list is a symmetric numeric matrix, Qi, the inverse of the Q matrix. The second entry in the outputted list is the log determinant of the matrix Q for use in likelihood calculations.
 #' @examples
-#' as.matrix(readr::read_tsv(system.file("extdata", "mouse100.cXX.txt", package = "gemma2"), col_names = FALSE)[, 1:100]) -> kinship
+#' as.matrix(readr::read_tsv(system.file("extdata",
+#' "mouse100.cXX.txt",
+#' package = "gemma2"),
+#' col_names = FALSE)[, 1:100]) -> kinship
 #' eigen2(kinship) -> e2_out
 #' e2_out$values -> eval
 #' e2_out$vectors -> U
-#' eigen_proc(V_g = diag(c(1.91352, 0.530827)), V_e = diag(c(0.320028, 0.561589))) -> ep_out
+#' eigen_proc(V_g = diag(c(1.91352, 0.530827)),
+#' V_e = diag(c(0.320028, 0.561589))) -> ep_out
 #'
-#' calc_qi(eval = eval, D_l = ep_out[[4]], X = t(rep(1, 100)) %*% U)
+#' calc_qi(eval = eval,
+#' D_l = ep_out[[4]],
+#' X = t(rep(1, 100)) %*% U)
 calc_qi <- function(eval, D_l, X){
   n_size <- length(eval)
   d_size <- length(D_l)
