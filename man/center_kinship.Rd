@@ -12,3 +12,8 @@ center_kinship(mat)
 \description{
 Center a relatedness matrix, after Zhou's GEMMA function CenterMatrix
 }
+\examples{
+readr::read_tsv(system.file("extdata", "mouse100.cXX.txt", package = "gemma2"), col_names = FALSE)[, 1:100] -> kinship
+e_out <- eigen2(as.matrix(kinship))
+center_kinship(as.matrix(kinship)) -> kinship_centered
+}
