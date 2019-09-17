@@ -2,7 +2,6 @@
 #'
 #' @param spd a semi-positive definite matrix
 #' @param decreasing argument passed to order()
-#' @export
 eigen2 <- function(spd, decreasing = FALSE){
   eigen(spd) -> foo
   bar <- foo

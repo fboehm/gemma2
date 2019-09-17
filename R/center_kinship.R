@@ -1,7 +1,6 @@
 #' Center a relatedness matrix, after Zhou's GEMMA function CenterMatrix
 #'
 #' @param mat a relatedness matrix
-#' @export
 
 center_kinship <- function(mat){
   #  gsl_vector_set_all(w, 1.0);

@@ -3,7 +3,6 @@
 #' @param OmegaE the OmegaE matrix, calculated in calc_omega
 #' @param UltVehiY matrix
 #' @param UltVehiBX matrix
-#' @export
 #' @family expectation-maximization functions
 #' @examples
 #' readr::read_tsv(system.file("extdata",
@@ -40,7 +39,6 @@ update_u <- function(OmegaE, UltVehiY, UltVehiBX){
 #' @param UltVehiBX matrix of transformed BX values
 #' @param UltVehiU matrix of transformed U values
 #' @family expectation-maximization functions
-#' @export
 update_e <- function(UltVehiY, UltVehiBX, UltVehiU){
   UltVehiE <- UltVehiY - UltVehiBX - UltVehiU
   return(UltVehiE)
@@ -52,7 +50,6 @@ update_e <- function(UltVehiY, UltVehiBX, UltVehiU){
 #' @param Qi Q inverse matrix
 #' @param d_size number of traits
 #' @family expectation-maximization functions
-#' @export
 UpdateRL_B <- function(xHiy, Qi, d_size){
   nrow(Qi) -> dc_size
   c_size <- dc_size / d_size
@@ -74,7 +71,6 @@ UpdateRL_B <- function(xHiy, Qi, d_size){
 #' @param Sigma_ee matrix
 #' @param tol a positive number indicating tolerance to be passed to isSymmetric()
 #' @family expectation-maximization functions
-#' @export
 update_v <- function(eval, U, E, Sigma_uu, Sigma_ee, tol = 1 / 10000){
   stopifnot(isSymmetric(Sigma_uu, tol = tol), isSymmetric(Sigma_ee, tol = tol))
   n_size <- length(eval)
@@ -105,7 +101,6 @@ update_v <- function(eval, U, E, Sigma_uu, Sigma_ee, tol = 1 / 10000){
 #' @param OmegaE matrix
 #' @param UltVeh matrix
 #' @param Qi inverse of Q matrix
-#' @export
 calc_sigma <- function(eval, D_l, X, OmegaU, OmegaE, UltVeh, Qi){
   n_size <- length(eval)
   c_size <- nrow(X)

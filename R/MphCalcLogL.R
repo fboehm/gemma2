@@ -5,7 +5,6 @@
 #' @param Qi inverse of Q matrix
 #' @param UltVehiY matrix of (transformed) Y values
 #' @param xHiy vector
-#' @export
 MphCalcLogL <- function(eval, D_l, Qi, UltVehiY, xHiy){
   n_size <- length(eval)
   d_size <- length(D_l) # d is number of phenotypes

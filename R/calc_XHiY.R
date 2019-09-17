@@ -4,7 +4,6 @@
 #' @param D_l vector of length d_size
 #' @param X design matrix
 #' @param UltVehiY a matrix
-#' @export
 #' @return numeric vector
 #' @examples
 #' readr::read_tsv(system.file("extdata",
@@ -60,7 +59,6 @@ calc_XHiY <- function(eval, D_l, X, UltVehiY){
 #' @param V_g a d_size by d_size covariance matrix
 #' @param V_e a d_size by d_size covariance matrix
 #' @param tol a positive number indicating the tolerance for isSymmetric
-#' @export
 eigen_proc <- function(V_g, V_e, tol = 1 / 10000){
   # check inputs
   stopifnot(isSymmetric(V_g, tol = tol), isSymmetric(V_e, tol = tol))
@@ -106,7 +104,6 @@ eigen_proc <- function(V_g, V_e, tol = 1 / 10000){
 #' @param eval vector of eigenvalues from decomposition of relatedness matrix
 #' @param D_l vector of length d_size
 #' @param X design matrix
-#' @export
 #' @return a list of length two. First entry in the list is a symmetric numeric matrix, Qi, the inverse of the Q matrix. The second entry in the outputted list is the log determinant of the matrix Q for use in likelihood calculations.
 #' @examples
 #' as.matrix(readr::read_tsv(system.file("extdata",
@@ -159,7 +156,6 @@ calc_qi <- function(eval, D_l, X){
 #'
 #' @param eval vector of eigenvalues from decomposition of relatedness matrix
 #' @param D_l vector of length d_size
-#' @export
 #' @return list of length 2. First entry in the list is the symmetric matrix OmegaU. Second entry in the list is the symmetric matrix OmegaE.
 calc_omega <- function(eval, D_l){
   n_size <- length(eval)
