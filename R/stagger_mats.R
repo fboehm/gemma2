@@ -9,8 +9,6 @@
 #' dim(block_diag)
 #' @export
 
-
-
 stagger_mats <- function(...){
   return(as.matrix(Matrix::bdiag(...)))
 }
