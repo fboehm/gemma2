@@ -7,5 +7,5 @@
 
 0 errors | 0 warnings | 0 notes
 
-This is a resubmission. I previously submitted gemma2 v 0.0.2. 
+This is a resubmission. I previously submitted gemma2 v 0.0.2, but it was rejected. 
 
