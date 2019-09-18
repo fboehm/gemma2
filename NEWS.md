@@ -1,3 +1,16 @@
+# gemma2 0.1.0
+
+## Major changes
+
+* added examples to all exported functions
+* added @return Roxygen2 field to all exported functions
+
+## Minor changes
+
+* switched to exporting only those functions that require exporting (instead of all functions)
+
+
+
 # gemma2 0.0.2
 
 ## Major changes
