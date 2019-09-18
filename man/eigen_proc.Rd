@@ -13,6 +13,13 @@ eigen_proc(V_g, V_e, tol = 1/10000)
 
 \item{tol}{a positive number indicating the tolerance for isSymmetric}
 }
+\value{
+a named list of length 4 containing the outputs of eigendecomposition procedure
+}
 \description{
 Eigendecomposition procedure for Vg and Ve
+}
+\examples{
+eigen_proc(diag(2), diag(2))
+
 }

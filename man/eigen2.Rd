@@ -18,6 +18,9 @@ a list with 2 components, the eigenvalues and the eigenvectors
 Calculate eigendecomposition and return ordered eigenvalues and eigenvectors
 }
 \examples{
-readr::read_tsv(system.file("extdata", "mouse100.cXX.txt", package = "gemma2"), col_names = FALSE)[, 1:100] -> kinship
+readr::read_tsv(system.file("extdata",
+"mouse100.cXX.txt",
+package = "gemma2"),
+col_names = FALSE)[, 1:100] -> kinship
 e_out <- eigen2(as.matrix(kinship))
 }

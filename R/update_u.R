@@ -4,6 +4,7 @@
 #' @param UltVehiY matrix
 #' @param UltVehiBX matrix
 #' @family expectation-maximization functions
+#' @export
 #' @examples
 #' readr::read_tsv(system.file("extdata",
 #' "mouse100.pheno.txt",

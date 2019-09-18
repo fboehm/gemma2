@@ -5,6 +5,7 @@
 #' @param X design matrix
 #' @param UltVehiY a matrix
 #' @return numeric vector
+#' @export
 #' @examples
 #' readr::read_tsv(system.file("extdata",
 #' "mouse100.pheno.txt",
@@ -59,6 +60,11 @@ calc_XHiY <- function(eval, D_l, X, UltVehiY){
 #' @param V_g a d_size by d_size covariance matrix
 #' @param V_e a d_size by d_size covariance matrix
 #' @param tol a positive number indicating the tolerance for isSymmetric
+#' @export
+#' @return a named list of length 4 containing the outputs of eigendecomposition procedure
+#' @examples
+#' eigen_proc(diag(2), diag(2))
+#'
 eigen_proc <- function(V_g, V_e, tol = 1 / 10000){
   # check inputs
   stopifnot(isSymmetric(V_g, tol = tol), isSymmetric(V_e, tol = tol))
@@ -101,6 +107,7 @@ eigen_proc <- function(V_g, V_e, tol = 1 / 10000){
 
 #' Calculate Qi (inverse of Q) and log determinant of Q
 #'
+#' @export
 #' @param eval vector of eigenvalues from decomposition of relatedness matrix
 #' @param D_l vector of length d_size
 #' @param X design matrix
@@ -154,9 +161,12 @@ calc_qi <- function(eval, D_l, X){
 
 #' Calculate Omega matrices
 #'
+#' @export
 #' @param eval vector of eigenvalues from decomposition of relatedness matrix
 #' @param D_l vector of length d_size
 #' @return list of length 2. First entry in the list is the symmetric matrix OmegaU. Second entry in the list is the symmetric matrix OmegaE.
+#' @examples
+#' calc_omega(eval = 50:1, D_l = runif(2))
 calc_omega <- function(eval, D_l){
   n_size <- length(eval)
   d_size <- length(D_l)

@@ -17,3 +17,6 @@ list of length 2. First entry in the list is the symmetric matrix OmegaU. Second
 \description{
 Calculate Omega matrices
 }
+\examples{
+calc_omega(eval = 50:1, D_l = runif(2))
+}
