@@ -1,3 +1,15 @@
+# gemma2 0.1.1
+
+## Major changes
+
+* None
+
+## Minor changes
+
+* Fixed quotation marks per CRAN request
+
+
+
 # gemma2 0.1.0
 
 ## Major changes
