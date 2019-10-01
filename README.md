@@ -6,6 +6,9 @@ Status](https://travis-ci.org/fboehm/gemma2.svg?branch=master)](https://travis-c
 
 [![codecov](https://codecov.io/gh/fboehm/gemma2/branch/master/graph/badge.svg)](https://codecov.io/gh/fboehm/gemma2)
 
+[![CRAN RStudio mirror
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/gemma2?color=blue)](https://r-pkg.org/pkg/gemma2)
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ## Overview
