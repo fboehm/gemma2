@@ -3,8 +3,7 @@
 \docType{package}
 \name{gemma2}
 \alias{gemma2}
-\alias{gemma2-package}
 \title{gemma2.}
 \description{
-gemma2.
+We implement an expectation-maximization algorithm for multivariate variance components after the GEMMA software's algorithm.
 }

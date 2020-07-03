@@ -40,7 +40,9 @@ update_u(OmegaE = co_out[[2]],
 )
 }
 \seealso{
-Other expectation-maximization functions: \code{\link{UpdateRL_B}},
-  \code{\link{update_e}}, \code{\link{update_v}}
+Other expectation-maximization functions: 
+\code{\link{UpdateRL_B}()},
+\code{\link{update_e}()},
+\code{\link{update_v}()}
 }
 \concept{expectation-maximization functions}

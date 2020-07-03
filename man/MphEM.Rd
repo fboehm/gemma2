@@ -4,8 +4,16 @@
 \alias{MphEM}
 \title{Perform expectation-maximization algorithm to infer Vg and Ve values for a pair of traits.}
 \usage{
-MphEM(max_iter = 10000, max_prec = 1/1e+06, eval, X, Y, V_g, V_e,
-  verbose_output = FALSE)
+MphEM(
+  max_iter = 10000,
+  max_prec = 1/1e+06,
+  eval,
+  X,
+  Y,
+  V_g,
+  V_e,
+  verbose_output = FALSE
+)
 }
 \arguments{
 \item{max_iter}{maximum number of iterations for EM algorithm}
