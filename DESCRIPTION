@@ -24,5 +24,6 @@ VignetteBuilder: knitr
 Imports: 
     readr,
     Matrix,
-    methods
+    methods,
+    magic
 Language: en-US
