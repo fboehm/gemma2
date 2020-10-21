@@ -1,6 +1,6 @@
 Package: gemma2
 Title: GEMMA Multivariate Linear Mixed Model
-Version: 0.1.1.9000
+Version: 0.1.2
 Authors@R: c(
     person(given = "Frederick", 
     family = "Boehm", 
@@ -23,7 +23,6 @@ RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 Imports: 
     readr,
-    Matrix,
     methods,
     magic
 Language: en-US

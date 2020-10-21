@@ -1,3 +1,16 @@
+# gemma2 0.1.2
+
+## Major changes
+
+* None
+
+## Minor changes
+
+* stopped using package Matrix.
+
+
+
+
 # gemma2 0.1.1
 
 ## Major changes
