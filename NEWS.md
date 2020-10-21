@@ -6,7 +6,7 @@
 
 ## Minor changes
 
-* stopped using package Matrix.
+* resumed using package Matrix.
 
 
 

@@ -23,5 +23,6 @@ RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 Imports: 
     readr,
-    methods
+    methods,
+    Matrix
 Language: en-US
