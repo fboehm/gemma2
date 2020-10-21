@@ -10,5 +10,5 @@
 #' @export
 
 stagger_mats <- function(...){
-  return(magic::adiag(...))
+  return(Matrix::bdiag(...))
 }
