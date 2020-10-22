@@ -12,4 +12,4 @@ Warning is:
 
 
 
-This submission updates the gemma2 package that is currently available on CRAN.
+This submission updates the gemma2 package that is currently available on CRAN. I've now removed the revdep directory. 
