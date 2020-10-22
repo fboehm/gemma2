@@ -15,14 +15,15 @@ Encoding: UTF-8
 LazyData: true
 URL: https://github.com/fboehm/gemma2
 BugReports: https://github.com/fboehm/gemma2/issues
-Suggests: covr,
+Suggests: 
+    covr,
     testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    readr
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 Imports: 
-    readr,
     methods,
     Matrix
 Language: en-US
