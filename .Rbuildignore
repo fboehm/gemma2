@@ -5,3 +5,4 @@
 ^README-.*\.png$
 ^codecov\.yml$
 ^CRAN-RELEASE$
+^cran-comments\.md$
